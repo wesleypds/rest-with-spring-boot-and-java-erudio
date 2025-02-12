@@ -1,3 +1,20 @@
+*.class
+
+/node_modules
+
+# SSH Keys
+
+*.pem
+*.ppk
+
+# Packge Files
+
+*.jar
+*.war
+*.ear
+
+# Temporary Files
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
