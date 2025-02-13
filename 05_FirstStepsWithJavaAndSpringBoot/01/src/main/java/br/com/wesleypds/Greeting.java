@@ -1,4 +1,4 @@
-package br.com.wesleypds.rest_with_spring_boot_and_java_erudio;
+package br.com.wesleypds;
 
 public class Greeting {
 

@@ -1,4 +1,4 @@
-package br.com.wesleypds.rest_with_spring_boot_and_java_erudio;
+package br.com.wesleypds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
