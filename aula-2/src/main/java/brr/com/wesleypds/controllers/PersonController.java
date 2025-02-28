@@ -33,7 +33,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public Person findById(@PathVariable String id) {
+    public Person findById(@PathVariable Long id) {
         return personService.findById(id);
     }
 
@@ -43,7 +43,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable Long id) {
         personService.delete(id);
     }
 
