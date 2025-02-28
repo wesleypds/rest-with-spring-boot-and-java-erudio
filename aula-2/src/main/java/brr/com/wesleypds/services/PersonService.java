@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import brr.com.wesleypds.controllers.exceptions.ResourceNotFoundException;
+import brr.com.wesleypds.data.vo.v1.PersonVO;
 import brr.com.wesleypds.models.Person;
 import brr.com.wesleypds.repositories.PersonRepository;
 
@@ -18,18 +19,18 @@ public class PersonService {
 
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
-    public Person create(Person person) {
+    public PersonVO create(PersonVO person) {
 
         logger.info("Creating one person!");
 
         return personRepository.save(person);
     }
 
-    public Person update(Person person) {
+    public PersonVO update(PersonVO person) {
 
         logger.info("Updating one person!");
 
-        Person entity = personRepository.findById(person.getId())
+        PersonVO entity = personRepository.findById(person.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("No records found this ID: %d", person.getId())));
 
@@ -45,14 +46,14 @@ public class PersonService {
 
         logger.info("Deleting one person!");
 
-        Person entity = personRepository.findById(id)
+        PersonVO entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("No records found this ID: %d", id)));
         
         personRepository.delete(entity);
     }
 
-    public Person findById(Long id) {
+    public PersonVO findById(Long id) {
 
         logger.info("Finding one person!");
 
@@ -60,7 +61,7 @@ public class PersonService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found this ID: %d", id)));
     }
 
-    public List<Person> findAll() {
+    public List<PersonVO> findAll() {
 
         logger.info("Finding all people!");
 
