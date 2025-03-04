@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import brr.com.wesleypds.data.vo.v1.PersonVO;
 import brr.com.wesleypds.mapper.DozerMapper;
-import brr.com.wesleypds.models.Person;
+import brr.com.wesleypds.models.v1.Person;
 import brr.com.wesleypds.unittests.mapper.mocks.MockPerson;
 
 public class DozerConverterTest {

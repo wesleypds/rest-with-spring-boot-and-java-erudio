@@ -1,6 +1,7 @@
-package brr.com.wesleypds.models;
+package brr.com.wesleypds.models.v2;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "person")
-public class Person implements Serializable {
+public class PersonV2 implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,10 @@ public class Person implements Serializable {
     @Column(name = "gender")
     private String gender;
 
-    public Person() {}
+    @Column(name = "birth_date")
+    private Date birthDate;
+
+    public PersonV2() {}
 
     public void setId(Long id) {
         this.id = id;
@@ -71,6 +75,14 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -87,7 +99,7 @@ public class Person implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Person other = (Person) obj;
+        PersonV2 other = (PersonV2) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

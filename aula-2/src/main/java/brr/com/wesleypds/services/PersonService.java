@@ -8,15 +8,21 @@ import org.springframework.stereotype.Service;
 
 import brr.com.wesleypds.controllers.exceptions.ResourceNotFoundException;
 import brr.com.wesleypds.data.vo.v1.PersonVO;
+import brr.com.wesleypds.data.vo.v2.PersonVOV2;
 import brr.com.wesleypds.mapper.DozerMapper;
-import brr.com.wesleypds.models.Person;
-import brr.com.wesleypds.repositories.PersonRepository;
+import brr.com.wesleypds.models.v1.Person;
+import brr.com.wesleypds.models.v2.PersonV2;
+import brr.com.wesleypds.repositories.v1.PersonRepository;
+import brr.com.wesleypds.repositories.v2.PersonRepositoryV2;
 
 @Service
 public class PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonRepositoryV2 personRepositoryV2;
 
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
@@ -26,6 +32,16 @@ public class PersonService {
 
         Person entity = personRepository.save(DozerMapper.parseObject(vo, Person.class));
         vo = DozerMapper.parseObject(entity, PersonVO.class);
+
+        return vo;
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 vo) {
+
+        logger.info("Creating one person!");
+
+        PersonV2 entity = personRepositoryV2.save(DozerMapper.parseObject(vo, PersonV2.class));
+        vo = DozerMapper.parseObject(entity, PersonVOV2.class);
 
         return vo;
     }
