@@ -2,16 +2,22 @@ package brr.com.wesleypds.data.vo;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
+@JsonPropertyOrder({"id", "first_name", "last_name", "address", "gender"})
 public class PersonVO implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonProperty("first_name")
     private String firstName;
 
+    @JsonProperty("last_name")
     private String lastName;
 
     private String address;
