@@ -34,7 +34,7 @@ public class PersonService {
 
         logger.info("Updating one person!");
 
-        Person entity = personRepository.findById(vo.getId())
+        Person entity = personRepository.findById(vo.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("No records found this ID!")));
 
