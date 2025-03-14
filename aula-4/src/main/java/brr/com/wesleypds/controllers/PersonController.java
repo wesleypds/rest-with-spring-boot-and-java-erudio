@@ -3,7 +3,6 @@ package brr.com.wesleypds.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import brr.com.wesleypds.data.vo.PersonVO;
 import brr.com.wesleypds.services.PersonService;
+import brr.com.wesleypds.util.MediaType;
 
 @RestController
 @RequestMapping(value = "api/people/v1")
@@ -24,22 +24,27 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @PostMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+            MediaType.APPLICATION_YAML }, consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+                    MediaType.APPLICATION_YAML })
     public PersonVO create(@RequestBody PersonVO person) {
         return personService.create(person);
     }
 
-    @PutMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @PutMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+            MediaType.APPLICATION_YAML }, consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+                    MediaType.APPLICATION_YAML })
     public PersonVO update(@RequestBody PersonVO person) {
         return personService.update(person);
     }
 
-    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+            MediaType.APPLICATION_YAML })
     public PersonVO findById(@PathVariable Long id) {
         return personService.findById(id);
     }
 
-    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML })
     public List<PersonVO> findAll() {
         return personService.findAll();
     }
