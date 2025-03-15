@@ -2,9 +2,6 @@ package brr.com.wesleypds.controllers;
 
 import java.util.List;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,34 +28,25 @@ public class PersonController {
             MediaType.APPLICATION_YAML }, consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
                     MediaType.APPLICATION_YAML })
     public PersonVO create(@RequestBody PersonVO person) {
-        var vo = personService.create(person);
-        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
-        return vo;
+        return personService.create(person);
     }
 
     @PutMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
             MediaType.APPLICATION_YAML }, consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
                     MediaType.APPLICATION_YAML })
     public PersonVO update(@RequestBody PersonVO person) {
-        var vo = personService.update(person);
-        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
-        return vo;
+        return personService.update(person);
     }
 
     @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
             MediaType.APPLICATION_YAML })
     public PersonVO findById(@PathVariable Long id) {
-        var vo = personService.findById(id);
-        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
-        return vo;
+        return personService.findById(id);
     }
 
     @GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML })
     public List<PersonVO> findAll() {
-        var vos = personService.findAll();
-        vos.stream()
-                .forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
-        return vos;
+        return personService.findAll();
     }
 
     @DeleteMapping(value = "/{id}")

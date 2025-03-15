@@ -3,9 +3,13 @@ package brr.com.wesleypds.services;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import brr.com.wesleypds.controllers.PersonController;
 import brr.com.wesleypds.controllers.exceptions.ResourceNotFoundException;
 import brr.com.wesleypds.data.vo.PersonVO;
 import brr.com.wesleypds.mapper.DozerMapper;
@@ -27,6 +31,7 @@ public class PersonService {
         Person entity = personRepository.save(DozerMapper.parseObject(vo, Person.class));
         vo = DozerMapper.parseObject(entity, PersonVO.class);
 
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         return vo;
     }
 
@@ -45,6 +50,7 @@ public class PersonService {
 
         entity = personRepository.save(entity);
         vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 
         return vo;
     }
@@ -68,6 +74,7 @@ public class PersonService {
                                     .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found this ID!", id)));
 
         PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 
         return vo;
     }
@@ -78,6 +85,8 @@ public class PersonService {
 
         List<PersonVO> list = DozerMapper.parseListObjects(personRepository.findAll(), PersonVO.class);
 
+        list.stream()
+                .forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
         return list;
     }
 
