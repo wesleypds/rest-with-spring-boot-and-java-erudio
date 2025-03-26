@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import brr.com.wesleypds.controllers.PersonController;
 import brr.com.wesleypds.data.vo.PersonVO;
+import brr.com.wesleypds.exceptions.RequiredIsNullException;
 import brr.com.wesleypds.exceptions.ResourceNotFoundException;
 import brr.com.wesleypds.mapper.DozerMapper;
 import brr.com.wesleypds.models.Person;
@@ -26,6 +27,7 @@ public class PersonService {
 
     public PersonVO create(PersonVO vo) {
 
+        if (vo == null) throw new RequiredIsNullException();
         logger.info("Creating one person!");
 
         Person entity = personRepository.save(DozerMapper.parseObject(vo, Person.class));
@@ -37,6 +39,7 @@ public class PersonService {
 
     public PersonVO update(PersonVO vo) {
 
+        if (vo == null) throw new RequiredIsNullException();
         logger.info("Updating one person!");
 
         Person entity = personRepository.findById(vo.getKey())

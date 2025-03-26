@@ -2,6 +2,7 @@ package brr.com.wesleypds.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -19,6 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import brr.com.wesleypds.data.vo.PersonVO;
+import brr.com.wesleypds.exceptions.RequiredIsNullException;
 import brr.com.wesleypds.models.Person;
 import brr.com.wesleypds.repositories.PersonRepository;
 import brr.com.wesleypds.unittests.mapper.mocks.MockPerson;
@@ -66,6 +68,18 @@ public class PersonServiceTest {
     }
 
     @Test
+    void testCreateWithNullPerson() {
+        Exception exception = assertThrows(RequiredIsNullException.class, () -> {
+            service.create(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void testDelete() {
         Person entity = input.mockEntity(1);
 
@@ -78,21 +92,21 @@ public class PersonServiceTest {
     void testFindAll() {
         List<Person> entityList = input.mockEntityList();
 
-        List<PersonVO> vos = input.mockVOList();
-
         when(repository.findAll()).thenReturn(entityList);
 
         var result = service.findAll();
 
+        assertNotNull(result);
+        assertEquals(14, result.size());
+
         for (int i = 0; i < result.size(); i++) {
-            assertNotNull(result.get(i));
             assertNotNull(result.get(i).getKey());
             assertNotNull(result.get(i).getLinks());
             assertTrue(result.get(i).toString().contains("links: [</api/people/v1/"+ i +">;rel=\"self\"]"));
-            assertEquals(vos.get(i).getFirstName(), result.get(i).getFirstName());
-            assertEquals(vos.get(i).getLastName(), result.get(i).getLastName());
-            assertEquals(vos.get(i).getAddress(), result.get(i).getAddress());
-            assertEquals(vos.get(i).getGender(), result.get(i).getGender());
+            assertEquals(entityList.get(i).getFirstName(), result.get(i).getFirstName());
+            assertEquals(entityList.get(i).getLastName(), result.get(i).getLastName());
+            assertEquals(entityList.get(i).getAddress(), result.get(i).getAddress());
+            assertEquals(entityList.get(i).getGender(), result.get(i).getGender());
         }
     }
 
@@ -135,5 +149,17 @@ public class PersonServiceTest {
         assertEquals(entity.getLastName(), result.getLastName());
         assertEquals(entity.getAddress(), result.getAddress());
         assertEquals(entity.getGender(), result.getGender());
+    }
+
+    @Test
+    void testUpdateWithNullPerson() {
+        Exception exception = assertThrows(RequiredIsNullException.class, () -> {
+            service.update(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }
