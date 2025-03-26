@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import brr.com.wesleypds.data.vo.PersonVO;
 import brr.com.wesleypds.models.Person;
 import brr.com.wesleypds.repositories.PersonRepository;
 import brr.com.wesleypds.unittests.mapper.mocks.MockPerson;
@@ -41,38 +43,97 @@ public class PersonServiceTest {
 
     @Test
     void testCreate() {
+        Person entity = input.mockEntity(1);
+        entity.setId(null);
 
+        Person persisted = entity;
+        persisted.setId(1L);
+
+        PersonVO vo = input.mockVO(1);
+        vo.setKey(1L);
+
+        when(repository.save(entity)).thenReturn(persisted);
+
+        var result = service.create(vo);
+        assertNotNull(result);
+        assertNotNull(result.getKey());
+        assertNotNull(result.getLinks());
+        assertTrue(result.toString().contains("links: [</api/people/v1/1>;rel=\"self\"]"));
+        assertEquals(entity.getFirstName(), result.getFirstName());
+        assertEquals(entity.getLastName(), result.getLastName());
+        assertEquals(entity.getAddress(), result.getAddress());
+        assertEquals(entity.getGender(), result.getGender());
     }
 
     @Test
     void testDelete() {
+        Person entity = input.mockEntity(1);
 
+        when(repository.findById(1L)).thenReturn(Optional.of(entity));
+
+        service.delete(1L);
     }
 
     @Test
     void testFindAll() {
+        List<Person> entityList = input.mockEntityList();
 
+        List<PersonVO> vos = input.mockVOList();
+
+        when(repository.findAll()).thenReturn(entityList);
+
+        var result = service.findAll();
+
+        for (int i = 0; i < result.size(); i++) {
+            assertNotNull(result.get(i));
+            assertNotNull(result.get(i).getKey());
+            assertNotNull(result.get(i).getLinks());
+            assertTrue(result.get(i).toString().contains("links: [</api/people/v1/"+ i +">;rel=\"self\"]"));
+            assertEquals(vos.get(i).getFirstName(), result.get(i).getFirstName());
+            assertEquals(vos.get(i).getLastName(), result.get(i).getLastName());
+            assertEquals(vos.get(i).getAddress(), result.get(i).getAddress());
+            assertEquals(vos.get(i).getGender(), result.get(i).getGender());
+        }
     }
 
     @Test
     void testFindById() {
-        Person person = input.mockEntity(1);
-        person.setId(1L);
+        Person entity = input.mockEntity(1);
 
-        when(repository.findById(1L)).thenReturn(Optional.of(person));
+        when(repository.findById(1L)).thenReturn(Optional.of(entity));
+
         var result = service.findById(1L);
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
         assertTrue(result.toString().contains("links: [</api/people/v1/1>;rel=\"self\"]"));
-        assertEquals(person.getFirstName(), result.getFirstName());
-        assertEquals(person.getLastName(), result.getLastName());
-        assertEquals(person.getAddress(), result.getAddress());
-        assertEquals(person.getGender(), result.getGender());
+        assertEquals(entity.getFirstName(), result.getFirstName());
+        assertEquals(entity.getLastName(), result.getLastName());
+        assertEquals(entity.getAddress(), result.getAddress());
+        assertEquals(entity.getGender(), result.getGender());
     }
 
     @Test
     void testUpdate() {
+        Person entity = input.mockEntity(1);
 
+        Person persisted = entity;
+        persisted.setId(1L);
+
+        PersonVO vo = input.mockVO(1);
+        vo.setKey(1L);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(entity));
+        when(repository.save(entity)).thenReturn(persisted);
+
+        var result = service.update(vo);
+        assertNotNull(result);
+        assertNotNull(result.getKey());
+        assertNotNull(result.getLinks());
+        assertTrue(result.toString().contains("links: [</api/people/v1/1>;rel=\"self\"]"));
+        assertEquals(entity.getFirstName(), result.getFirstName());
+        assertEquals(entity.getLastName(), result.getLastName());
+        assertEquals(entity.getAddress(), result.getAddress());
+        assertEquals(entity.getGender(), result.getGender());
     }
 }
