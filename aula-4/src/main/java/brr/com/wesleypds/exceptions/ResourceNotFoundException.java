@@ -1,4 +1,4 @@
-package brr.com.wesleypds.controllers.exceptions;
+package brr.com.wesleypds.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

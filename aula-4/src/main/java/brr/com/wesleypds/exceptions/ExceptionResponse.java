@@ -1,4 +1,4 @@
-package brr.com.wesleypds.controllers.exceptions;
+package brr.com.wesleypds.exceptions;
 
 import java.io.Serializable;
 import java.util.Date;

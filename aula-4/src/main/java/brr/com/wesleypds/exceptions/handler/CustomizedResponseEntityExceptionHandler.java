@@ -1,4 +1,4 @@
-package brr.com.wesleypds.controllers.exceptions.handler;
+package brr.com.wesleypds.exceptions.handler;
 
 import java.util.Date;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import brr.com.wesleypds.controllers.exceptions.ExceptionResponse;
-import brr.com.wesleypds.controllers.exceptions.ResourceNotFoundException;
+import brr.com.wesleypds.exceptions.ExceptionResponse;
+import brr.com.wesleypds.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
 @RestController

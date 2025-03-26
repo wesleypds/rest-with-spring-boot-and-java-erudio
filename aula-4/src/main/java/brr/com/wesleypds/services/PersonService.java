@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import brr.com.wesleypds.controllers.PersonController;
-import brr.com.wesleypds.controllers.exceptions.ResourceNotFoundException;
 import brr.com.wesleypds.data.vo.PersonVO;
+import brr.com.wesleypds.exceptions.ResourceNotFoundException;
 import brr.com.wesleypds.mapper.DozerMapper;
 import brr.com.wesleypds.models.Person;
 import brr.com.wesleypds.repositories.PersonRepository;
