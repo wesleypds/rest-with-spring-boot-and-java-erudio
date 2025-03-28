@@ -1,4 +1,4 @@
-package brr.com.wesleypds.services;
+package brr.com.wesleypds.unittests.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,6 +23,7 @@ import brr.com.wesleypds.data.vo.BookVO;
 import brr.com.wesleypds.exceptions.RequiredIsNullException;
 import brr.com.wesleypds.models.Book;
 import brr.com.wesleypds.repositories.BookRepository;
+import brr.com.wesleypds.services.BookService;
 import brr.com.wesleypds.unittests.mapper.mocks.MockBook;
 
 @TestInstance(Lifecycle.PER_CLASS)

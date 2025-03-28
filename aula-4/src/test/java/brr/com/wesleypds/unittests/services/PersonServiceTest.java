@@ -1,4 +1,4 @@
-package brr.com.wesleypds.services;
+package brr.com.wesleypds.unittests.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,6 +23,7 @@ import brr.com.wesleypds.data.vo.PersonVO;
 import brr.com.wesleypds.exceptions.RequiredIsNullException;
 import brr.com.wesleypds.models.Person;
 import brr.com.wesleypds.repositories.PersonRepository;
+import brr.com.wesleypds.services.PersonService;
 import brr.com.wesleypds.unittests.mapper.mocks.MockPerson;
 
 @TestInstance(Lifecycle.PER_CLASS)
