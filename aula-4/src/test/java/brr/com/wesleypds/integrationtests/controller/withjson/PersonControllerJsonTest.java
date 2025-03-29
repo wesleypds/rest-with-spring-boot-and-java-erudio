@@ -45,11 +45,11 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 
     @Test
     @Order(1)
-    public void personCreate() throws JsonMappingException, JsonProcessingException {
+    public void testCreate() throws JsonMappingException, JsonProcessingException {
         mockPerson();
 
         specification = new RequestSpecBuilder()
-                .addHeader(TestConfigs.HEADER_PARAM_ORIGN, "https://erudio.com.br")
+                .addHeader(TestConfigs.HEADER_PARAM_ORIGN, TestConfigs.ORIGIN_ERUDIO)
                 .setBasePath("api/people/v1")
                 .setPort(TestConfigs.SERVER_PORT)
                     .addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -85,6 +85,35 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertEquals("Stallman", createdPerson.getLastName());
         assertEquals("New York City, New York, USA", createdPerson.getAddress());
         assertEquals("Male", createdPerson.getGender());
+    }
+
+    @Test
+    @Order(2)
+    public void testCreateWithWrongOrigin() throws JsonMappingException, JsonProcessingException {
+        mockPerson();
+
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfigs.HEADER_PARAM_ORIGN, TestConfigs.ORIGIN_GOOGLE)
+                .setBasePath("api/people/v1")
+                .setPort(TestConfigs.SERVER_PORT)
+                    .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                    .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
+
+        var content = given()
+                .spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                    .body(person)
+                .when()
+                    .post()
+                .then()
+                    .statusCode(403)
+                .extract()
+                    .body()
+                        .asString();
+
+        assertNotNull(content);
+        assertEquals("Invalid CORS request", content);
     }
 
     private void mockPerson() {
