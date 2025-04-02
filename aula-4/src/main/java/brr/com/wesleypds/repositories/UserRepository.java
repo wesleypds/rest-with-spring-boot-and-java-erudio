@@ -8,7 +8,7 @@ import brr.com.wesleypds.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u FROM User WHERE u.userName =:userName")
-    User findByUserName(@Param("userName") String userName);
+    @Query("SELECT u FROM User u WHERE u.username =:username")
+    User findByUserName(@Param("username") String username);
 
 }
