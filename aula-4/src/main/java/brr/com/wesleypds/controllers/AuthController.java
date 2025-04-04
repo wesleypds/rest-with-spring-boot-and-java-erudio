@@ -3,7 +3,6 @@ package brr.com.wesleypds.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +14,7 @@ import brr.com.wesleypds.data.vo.security.AccountCredentialsVO;
 import brr.com.wesleypds.services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.server.PathParam;
 
 @Tag(name = "Authentication Endpoint")
 @RestController
@@ -40,8 +40,8 @@ public class AuthController {
 
     @SuppressWarnings("rawtypes")
     @Operation(summary = "Refresh token for authenticated user and returns a token")
-    @PutMapping("/refresh-token/{username}")
-    public ResponseEntity refreshToken(@PathVariable String username,
+    @PutMapping("/refresh-token")
+    public ResponseEntity refreshToken(@PathParam(value = "username") String username,
             @RequestHeader("Authorization") String refreshToken) {
         if (authService.checkIfParamsIsNotNull(username, refreshToken))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
