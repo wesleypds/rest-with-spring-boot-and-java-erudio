@@ -8,24 +8,24 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.test.context.ContextConfiguration;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.lifecycle.Startables;
 
 @ContextConfiguration(initializers = AbstractIntegrationTest.Initializer.class)
 public class AbstractIntegrationTest {
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:9.2.0");
+        static PostgreSQLContainer<?> pgvector = new PostgreSQLContainer<>("pgvector/pgvector:pg16");
 
         private static void startContainers() {
-            Startables.deepStart(Stream.of(mysql)).join();
+            Startables.deepStart(Stream.of(pgvector)).join();
         }
 
         private static Map<String, String> createConnectionConfiguration() {
             return Map.of(
-                    "spring.datasource.url", mysql.getJdbcUrl(),
-                    "spring.datasource.username", mysql.getUsername(),
-                    "spring.datasource.password", mysql.getPassword());
+                    "spring.datasource.url", pgvector.getJdbcUrl(),
+                    "spring.datasource.username", pgvector.getUsername(),
+                    "spring.datasource.password", pgvector.getPassword());
         }
 
         @SuppressWarnings({ "unchecked", "rawtypes" })

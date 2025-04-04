@@ -48,4 +48,28 @@ public class AuthService {
         }
     }
 
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity refreshToken(String username, String refreshToken) {
+        var user = userRepository.findByUserName(username);
+
+        var tokenResponse = new TokenVO();
+
+        if (user != null) {
+            tokenResponse = tokenProvider.refreshToken(refreshToken);
+        } else {
+            throw new UsernameNotFoundException("Username " + username + " not found!");
+        }
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+    public Boolean checkIfParamsIsNotNull(String username, String refreshToken) {
+        return refreshToken == null || refreshToken.isBlank() ||
+                username == null || username.isBlank();
+    }
+
+    public Boolean checkIfParamsIsNotNull(AccountCredentialsVO data) {
+        return data == null || data.getUserName() == null || data.getUserName().isBlank()
+                || data.getPassword() == null || data.getPassword().isBlank();
+    }
+
 }
