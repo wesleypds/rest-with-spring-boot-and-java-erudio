@@ -1,7 +1,7 @@
 ﻿CREATE TABLE IF NOT EXISTS books (
-  id BIGSERIAL PRIMARY KEY,
-  author VARCHAR(80) NOT NULL,
-  launch_date TIMESTAMP(6) NOT NULL,
-  price NUMERIC(65,2) NOT NULL,
-  title VARCHAR(100) NOT NULL
+  id bigint generated always as identity primary key,
+  author text not null,
+  launch_date timestamp not null,
+  price decimal(10,2) not null,
+  title text not null
 );

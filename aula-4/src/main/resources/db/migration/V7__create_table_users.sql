@@ -1,10 +1,10 @@
 ﻿CREATE TABLE IF NOT EXISTS users (
-  id BIGSERIAL PRIMARY KEY,
-  user_name VARCHAR(255) UNIQUE,
-  full_name VARCHAR(255) DEFAULT NULL,
-  password VARCHAR(255) DEFAULT NULL,
-  account_non_expired BOOLEAN DEFAULT NULL,
-  account_non_locked BOOLEAN DEFAULT NULL,
-  credentials_non_expired BOOLEAN DEFAULT NULL,
-  enabled BOOLEAN DEFAULT NULL
+  id bigint generated always as identity primary key,
+  user_name text unique,
+  full_name text default null,
+  password text default null,
+  account_non_expired boolean default null,
+  account_non_locked boolean default null,
+  credentials_non_expired boolean default null,
+  enabled boolean default null
 );

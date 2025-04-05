@@ -1,4 +1,4 @@
 ﻿CREATE TABLE IF NOT EXISTS permission (
-  id BIGSERIAL PRIMARY KEY,
-  description VARCHAR(255) DEFAULT NULL
+  id bigint generated always as identity primary key,
+  description text not null
 );
