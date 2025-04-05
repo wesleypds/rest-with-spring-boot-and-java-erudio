@@ -19,7 +19,7 @@ import brr.com.wesleypds.integrationtests.vo.TokenVO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
-public class AuthControllerXmlnTest extends AbstractIntegrationTest {
+public class AuthControllerXmlTest extends AbstractIntegrationTest {
 
     private static TokenVO tokenVO;
 
