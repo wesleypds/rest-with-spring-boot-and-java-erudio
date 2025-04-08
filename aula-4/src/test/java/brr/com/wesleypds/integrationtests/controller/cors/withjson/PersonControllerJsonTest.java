@@ -1,4 +1,4 @@
-package brr.com.wesleypds.integrationtests.controller.withjson;
+package brr.com.wesleypds.integrationtests.controller.cors.withjson;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
