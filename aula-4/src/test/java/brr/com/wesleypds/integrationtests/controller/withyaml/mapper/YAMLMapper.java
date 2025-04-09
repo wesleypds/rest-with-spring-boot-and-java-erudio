@@ -1,7 +1,10 @@
 package brr.com.wesleypds.integrationtests.controller.withyaml.mapper;
 
+import java.lang.reflect.Type;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -21,14 +24,14 @@ public class YAMLMapper implements ObjectMapper {
         typeFactory = TypeFactory.defaultInstance();
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public Object deserialize(ObjectMapperDeserializationContext context) {
         try {
             String dataToDeserialize = context.getDataToDeserialize().asString();
-            Class type = (Class) context.getType();
+            Type type = context.getType(); // Pode ser Class ou ParameterizedType
+            JavaType javaType = typeFactory.constructType(type); // Jackson dá conta
 
-            return objectMapper.readValue(dataToDeserialize, typeFactory.constructType(type));
+            return objectMapper.readValue(dataToDeserialize, javaType);
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (JsonProcessingException e) {
