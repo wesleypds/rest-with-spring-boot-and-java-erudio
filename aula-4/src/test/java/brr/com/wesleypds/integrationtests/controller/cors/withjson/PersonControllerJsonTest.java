@@ -91,23 +91,24 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                     .body()
                         .asString();
 
-        PersonVO createdPerson = mapper.readValue(content, PersonVO.class);
-        person = createdPerson;
+        PersonVO personPersisted = mapper.readValue(content, PersonVO.class);
 
-        assertNotNull(createdPerson);
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
+        assertNotNull(personPersisted.getEnabled());
 
-        assertNotNull(createdPerson.getId());
-        assertNotNull(createdPerson.getFirstName());
-        assertNotNull(createdPerson.getLastName());
-        assertNotNull(createdPerson.getAddress());
-        assertNotNull(createdPerson.getGender());
+        assertTrue(personPersisted.getId() > 0);
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
+        assertEquals(person.getEnabled(), personPersisted.getEnabled());
 
-        assertTrue(createdPerson.getId() > 0);
-
-        assertEquals("Richard", createdPerson.getFirstName());
-        assertEquals("Stallman", createdPerson.getLastName());
-        assertEquals("New York City, New York, USA", createdPerson.getAddress());
-        assertEquals("Male", createdPerson.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -148,23 +149,24 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                     .body()
                         .asString();
 
-        PersonVO persistedPerson = mapper.readValue(content, PersonVO.class);
-        person = persistedPerson;
+        PersonVO personPersisted = mapper.readValue(content, PersonVO.class);
 
-        assertNotNull(persistedPerson);
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
+        assertNotNull(personPersisted.getEnabled());
 
-        assertNotNull(persistedPerson.getId());
-        assertNotNull(persistedPerson.getFirstName());
-        assertNotNull(persistedPerson.getLastName());
-        assertNotNull(persistedPerson.getAddress());
-        assertNotNull(persistedPerson.getGender());
+        assertEquals(person.getId(), personPersisted.getId());
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
+        assertEquals(person.getEnabled(), personPersisted.getEnabled());
 
-        assertTrue(persistedPerson.getId() > 0);
-
-        assertEquals("Richard", persistedPerson.getFirstName());
-        assertEquals("Stallman", persistedPerson.getLastName());
-        assertEquals("New York City, New York, USA", persistedPerson.getAddress());
-        assertEquals("Male", persistedPerson.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -189,10 +191,11 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
     }
 
     private void mockPerson() {
-        person.setFirstName("Richard");
-        person.setLastName("Stallman");
-        person.setAddress("New York City, New York, USA");
+        person.setFirstName("Nelson");
+        person.setLastName("Piquet");
+        person.setAddress("Brasília, DF, BRAZIL");
         person.setGender("Male");
+        person.setEnabled(true);
     }
 
 }

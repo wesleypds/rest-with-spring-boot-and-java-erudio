@@ -66,6 +66,7 @@ public class PersonServiceTest {
         assertEquals(entity.getLastName(), result.getLastName());
         assertEquals(entity.getAddress(), result.getAddress());
         assertEquals(entity.getGender(), result.getGender());
+        assertEquals(entity.getEnabled(), result.getEnabled());
     }
 
     @Test
@@ -108,6 +109,7 @@ public class PersonServiceTest {
             assertEquals(entityList.get(i).getLastName(), result.get(i).getLastName());
             assertEquals(entityList.get(i).getAddress(), result.get(i).getAddress());
             assertEquals(entityList.get(i).getGender(), result.get(i).getGender());
+            assertEquals(entityList.get(i).getEnabled(), result.get(i).getEnabled());
         }
     }
 
@@ -126,6 +128,7 @@ public class PersonServiceTest {
         assertEquals(entity.getLastName(), result.getLastName());
         assertEquals(entity.getAddress(), result.getAddress());
         assertEquals(entity.getGender(), result.getGender());
+        assertEquals(entity.getEnabled(), result.getEnabled());
     }
 
     @Test
@@ -150,6 +153,7 @@ public class PersonServiceTest {
         assertEquals(entity.getLastName(), result.getLastName());
         assertEquals(entity.getAddress(), result.getAddress());
         assertEquals(entity.getGender(), result.getGender());
+        assertEquals(entity.getEnabled(), result.getEnabled());
     }
 
     @Test
