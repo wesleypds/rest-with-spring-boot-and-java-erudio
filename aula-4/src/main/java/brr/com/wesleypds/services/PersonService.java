@@ -16,6 +16,7 @@ import brr.com.wesleypds.exceptions.ResourceNotFoundException;
 import brr.com.wesleypds.mapper.DozerMapper;
 import brr.com.wesleypds.models.Person;
 import brr.com.wesleypds.repositories.PersonRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PersonService {
@@ -72,6 +73,22 @@ public class PersonService {
     public PersonVO findById(Long id) {
 
         logger.info("Finding one person!");
+
+        Person entity = personRepository.findById(id)
+                                    .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found this ID!", id)));
+
+        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+
+        return vo;
+    }
+
+    @Transactional
+    public PersonVO disablePerson(Long id) {
+
+        logger.info("Disabling one person!");
+
+        personRepository.personDisable(id);
 
         Person entity = personRepository.findById(id)
                                     .orElseThrow(() -> new ResourceNotFoundException(String.format("No records found this ID!", id)));
