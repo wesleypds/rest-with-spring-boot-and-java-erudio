@@ -2,6 +2,7 @@ package brr.com.wesleypds.integrationtests.controller.withxml;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -198,6 +199,43 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
 
     @Test
     @Order(4)
+    public void testDisablePerson() throws JsonMappingException, JsonProcessingException {
+
+        var content = given()
+                .spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
+                .pathParam("id", person.getId())
+                .when()
+                .patch("{id}")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        PersonVO personPersisted = mapper.readValue(content, PersonVO.class);
+        
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
+        assertNotNull(personPersisted.getEnabled());
+
+        assertEquals(person.getId(), personPersisted.getId());
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
+        assertNotEquals(person.getEnabled(), personPersisted.getEnabled());
+
+        person = personPersisted;
+    }
+
+    @Test
+    @Order(5)
     public void testDelete() throws JsonMappingException, JsonProcessingException {
 
         given().spec(specification)
@@ -210,7 +248,7 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void testFindAll() throws JsonMappingException, JsonProcessingException {
 
         var content = given()
@@ -281,7 +319,7 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 
         specification = new RequestSpecBuilder()
