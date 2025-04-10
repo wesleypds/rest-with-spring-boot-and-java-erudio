@@ -123,4 +123,18 @@ public class PersonService {
         return assembler.toModel(personVosPage, link);
     }
 
+    public PagedModel<EntityModel<PersonVO>> findPeopleByName(String firstName, Pageable pageable) {
+
+        logger.info("Finding people by name!");
+
+        var personPage = personRepository.findPeopleByName(firstName, pageable);
+        var personVosPage = personPage.map(p -> DozerMapper.parseObject(p, PersonVO.class));
+        personVosPage.map(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
+        Link link = linkTo(methodOn(PersonController.class)
+                .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc"))
+                .withSelfRel();
+
+        return assembler.toModel(personVosPage, link);
+    }
+
 }
