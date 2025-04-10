@@ -99,23 +99,22 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
                 .body()
                 .asString();
 
-        PersonVO createdPerson = mapper.readValue(content, PersonVO.class);
-        person = createdPerson;
+        PersonVO personPersisted = mapper.readValue(content, PersonVO.class);
 
-        assertNotNull(createdPerson);
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
 
-        assertNotNull(createdPerson.getId());
-        assertNotNull(createdPerson.getFirstName());
-        assertNotNull(createdPerson.getLastName());
-        assertNotNull(createdPerson.getAddress());
-        assertNotNull(createdPerson.getGender());
+        assertTrue(personPersisted.getId() > 0);
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
 
-        assertTrue(createdPerson.getId() > 0);
-
-        assertEquals("Nelson", createdPerson.getFirstName());
-        assertEquals("Piquet", createdPerson.getLastName());
-        assertEquals("Brasília, DF, BRAZIL", createdPerson.getAddress());
-        assertEquals("Male", createdPerson.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -138,23 +137,22 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
                 .body()
                 .asString();
 
-        PersonVO createdPerson = mapper.readValue(content, PersonVO.class);
-        person = createdPerson;
+        PersonVO personPersisted = mapper.readValue(content, PersonVO.class);
 
-        assertNotNull(createdPerson);
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
 
-        assertNotNull(createdPerson.getId());
-        assertNotNull(createdPerson.getFirstName());
-        assertNotNull(createdPerson.getLastName());
-        assertNotNull(createdPerson.getAddress());
-        assertNotNull(createdPerson.getGender());
+        assertEquals(person.getId(), personPersisted.getId());
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
 
-        assertEquals(person.getId(), createdPerson.getId());
-
-        assertEquals("Nelson", createdPerson.getFirstName());
-        assertEquals("Piquet Souto Maior", createdPerson.getLastName());
-        assertEquals("Brasília, DF, BRAZIL", createdPerson.getAddress());
-        assertEquals("Male", createdPerson.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -174,23 +172,22 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
                 .body()
                 .asString();
 
-        PersonVO persistedPerson = mapper.readValue(content, PersonVO.class);
-        person = persistedPerson;
+        PersonVO personPersisted = mapper.readValue(content, PersonVO.class);
+        
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
 
-        assertNotNull(persistedPerson);
+        assertEquals(person.getId(), personPersisted.getId());
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
 
-        assertNotNull(persistedPerson.getId());
-        assertNotNull(persistedPerson.getFirstName());
-        assertNotNull(persistedPerson.getLastName());
-        assertNotNull(persistedPerson.getAddress());
-        assertNotNull(persistedPerson.getGender());
-
-        assertTrue(persistedPerson.getId() > 0);
-
-        assertEquals("Nelson", persistedPerson.getFirstName());
-        assertEquals("Piquet Souto Maior", persistedPerson.getLastName());
-        assertEquals("Brasília, DF, BRAZIL", persistedPerson.getAddress());
-        assertEquals("Male", persistedPerson.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -228,7 +225,6 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         PersonVO foundPersonOne = people.get(0);
 
         assertNotNull(foundPersonOne);
-
         assertNotNull(foundPersonOne.getId());
         assertNotNull(foundPersonOne.getFirstName());
         assertNotNull(foundPersonOne.getLastName());
@@ -236,7 +232,6 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonOne.getGender());
 
         assertEquals(1L, foundPersonOne.getId());
-
         assertEquals("João", foundPersonOne.getFirstName());
         assertEquals("Silva", foundPersonOne.getLastName());
         assertEquals("Rua das Flores, 123", foundPersonOne.getAddress());
@@ -245,7 +240,6 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         PersonVO foundPersonFive = people.get(4);
 
         assertNotNull(foundPersonFive);
-
         assertNotNull(foundPersonFive.getId());
         assertNotNull(foundPersonFive.getFirstName());
         assertNotNull(foundPersonFive.getLastName());
@@ -253,7 +247,6 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonFive.getGender());
 
         assertEquals(5L, foundPersonFive.getId());
-
         assertEquals("Carlos", foundPersonFive.getFirstName());
         assertEquals("Pereira", foundPersonFive.getLastName());
         assertEquals("Rua das Palmeiras, 1213", foundPersonFive.getAddress());
@@ -262,7 +255,6 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         PersonVO foundPersonTen = people.get(9);
 
         assertNotNull(foundPersonTen);
-
         assertNotNull(foundPersonTen.getId());
         assertNotNull(foundPersonTen.getFirstName());
         assertNotNull(foundPersonTen.getLastName());
@@ -270,7 +262,6 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonTen.getGender());
 
         assertEquals(10L, foundPersonTen.getId());
-
         assertEquals("Camila", foundPersonTen.getFirstName());
         assertEquals("Ribeiro", foundPersonTen.getLastName());
         assertEquals("Rua dos Lírios, 2223", foundPersonTen.getAddress());

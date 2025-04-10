@@ -111,22 +111,22 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
                 .body()
                 .as(PersonVO.class, mapper);
 
-        person = content;
+        PersonVO personPersisted = content;
 
-        assertNotNull(content);
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
 
-        assertNotNull(content.getId());
-        assertNotNull(content.getFirstName());
-        assertNotNull(content.getLastName());
-        assertNotNull(content.getAddress());
-        assertNotNull(content.getGender());
+        assertTrue(personPersisted.getId() > 0);
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
 
-        assertTrue(content.getId() > 0);
-
-        assertEquals("Nelson", content.getFirstName());
-        assertEquals("Piquet", content.getLastName());
-        assertEquals("Brasília, DF, BRAZIL", content.getAddress());
-        assertEquals("Male", content.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -154,22 +154,22 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
                 .body()
                 .as(PersonVO.class, mapper);
 
-        person = content;
+                PersonVO personPersisted = content;
 
-        assertNotNull(content);
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
 
-        assertNotNull(content.getId());
-        assertNotNull(content.getFirstName());
-        assertNotNull(content.getLastName());
-        assertNotNull(content.getAddress());
-        assertNotNull(content.getGender());
+        assertEquals(person.getId(), personPersisted.getId());
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
 
-        assertEquals(person.getId(), content.getId());
-
-        assertEquals("Nelson", content.getFirstName());
-        assertEquals("Piquet Souto Maior", content.getLastName());
-        assertEquals("Brasília, DF, BRAZIL", content.getAddress());
-        assertEquals("Male", content.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -196,22 +196,22 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
                 .body()
                 .as(PersonVO.class, mapper);
 
-        person = content;
+        PersonVO personPersisted = content;
 
-        assertNotNull(content);
+        assertNotNull(personPersisted);
+        assertNotNull(personPersisted.getId());
+        assertNotNull(personPersisted.getFirstName());
+        assertNotNull(personPersisted.getLastName());
+        assertNotNull(personPersisted.getAddress());
+        assertNotNull(personPersisted.getGender());
 
-        assertNotNull(content.getId());
-        assertNotNull(content.getFirstName());
-        assertNotNull(content.getLastName());
-        assertNotNull(content.getAddress());
-        assertNotNull(content.getGender());
+        assertEquals(person.getId(), personPersisted.getId());
+        assertEquals(person.getFirstName(), personPersisted.getFirstName());
+        assertEquals(person.getLastName(), personPersisted.getLastName());
+        assertEquals(person.getAddress(), personPersisted.getAddress());
+        assertEquals(person.getGender(), personPersisted.getGender());
 
-        assertTrue(content.getId() > 0);
-
-        assertEquals("Nelson", content.getFirstName());
-        assertEquals("Piquet Souto Maior", content.getLastName());
-        assertEquals("Brasília, DF, BRAZIL", content.getAddress());
-        assertEquals("Male", content.getGender());
+        person = personPersisted;
     }
 
     @Test
@@ -256,7 +256,6 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         PersonVO foundPersonOne = people.get(0);
 
         assertNotNull(foundPersonOne);
-
         assertNotNull(foundPersonOne.getId());
         assertNotNull(foundPersonOne.getFirstName());
         assertNotNull(foundPersonOne.getLastName());
@@ -264,7 +263,6 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonOne.getGender());
 
         assertEquals(1L, foundPersonOne.getId());
-
         assertEquals("João", foundPersonOne.getFirstName());
         assertEquals("Silva", foundPersonOne.getLastName());
         assertEquals("Rua das Flores, 123", foundPersonOne.getAddress());
@@ -273,7 +271,6 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         PersonVO foundPersonFive = people.get(4);
 
         assertNotNull(foundPersonFive);
-
         assertNotNull(foundPersonFive.getId());
         assertNotNull(foundPersonFive.getFirstName());
         assertNotNull(foundPersonFive.getLastName());
@@ -281,7 +278,6 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonFive.getGender());
 
         assertEquals(5L, foundPersonFive.getId());
-
         assertEquals("Carlos", foundPersonFive.getFirstName());
         assertEquals("Pereira", foundPersonFive.getLastName());
         assertEquals("Rua das Palmeiras, 1213", foundPersonFive.getAddress());
@@ -290,7 +286,6 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         PersonVO foundPersonTen = people.get(9);
 
         assertNotNull(foundPersonTen);
-
         assertNotNull(foundPersonTen.getId());
         assertNotNull(foundPersonTen.getFirstName());
         assertNotNull(foundPersonTen.getLastName());
@@ -298,7 +293,6 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonTen.getGender());
 
         assertEquals(10L, foundPersonTen.getId());
-
         assertEquals("Camila", foundPersonTen.getFirstName());
         assertEquals("Ribeiro", foundPersonTen.getLastName());
         assertEquals("Rua dos Lírios, 2223", foundPersonTen.getAddress());
