@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +27,7 @@ import brr.com.wesleypds.integrationtests.testcontainers.AbstractIntegrationTest
 import brr.com.wesleypds.integrationtests.vo.AccountCredentialsVO;
 import brr.com.wesleypds.integrationtests.vo.BookVO;
 import brr.com.wesleypds.integrationtests.vo.TokenVO;
+import brr.com.wesleypds.integrationtests.vo.wrappers.WrapperBookVOJson;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -205,6 +205,9 @@ public class BookControllerWithJsonTest extends AbstractIntegrationTest {
         var content = given()
                 .spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .queryParam("page", 0)
+                .queryParam("size", 10)
+                .queryParam("direction", "asc")
                 .when()
                 .get()
                 .then()
@@ -213,8 +216,9 @@ public class BookControllerWithJsonTest extends AbstractIntegrationTest {
                 .body()
                 .asString();
 
-        List<BookVO> books = mapper.readValue(content, new TypeReference<List<BookVO>>() {
-        });
+        WrapperBookVOJson wrapperBookVO = mapper.readValue(content, WrapperBookVOJson.class);
+
+        List<BookVO> books = wrapperBookVO.getEmbedded().getBooks();
 
         BookVO foundBookOne = books.get(0);
 
@@ -225,11 +229,11 @@ public class BookControllerWithJsonTest extends AbstractIntegrationTest {
         assertNotNull(foundBookOne.getPrice());
         assertNotNull(foundBookOne.getTitle());
         
-        assertEquals(1L, foundBookOne.getId());
-        assertEquals("Michael C. Feathers", foundBookOne.getAuthor());
-        assertEquals("2017-11-29 13:50:05.878", DATE_FORMAT.format(foundBookOne.getLaunchDate()));
-        assertEquals(49.00, foundBookOne.getPrice());
-        assertEquals("Working effectively with legacy code", foundBookOne.getTitle());
+        assertEquals(15L, foundBookOne.getId());
+        assertEquals("Aguinaldo Aragon Fernandes e Vladimir Ferraz de Abreu", foundBookOne.getAuthor());
+        assertEquals("2017-11-07 15:09:01.674", DATE_FORMAT.format(foundBookOne.getLaunchDate()));
+        assertEquals(54.0, foundBookOne.getPrice());
+        assertEquals("Implantando a governança de TI", foundBookOne.getTitle());
 
         BookVO foundBookFive = books.get(4);
 
@@ -240,11 +244,11 @@ public class BookControllerWithJsonTest extends AbstractIntegrationTest {
         assertNotNull(foundBookFive.getPrice());
         assertNotNull(foundBookFive.getTitle());
 
-        assertEquals(5L, foundBookFive.getId());
-        assertEquals("Steve McConnell", foundBookFive.getAuthor());
+        assertEquals(7L, foundBookFive.getId());
+        assertEquals("Eric Freeman, Elisabeth Freeman, Kathy Sierra, Bert Bates", foundBookFive.getAuthor());
         assertEquals("2017-11-07 15:09:01.674", DATE_FORMAT.format(foundBookFive.getLaunchDate()));
-        assertEquals(58.00, foundBookFive.getPrice());
-        assertEquals("Code complete", foundBookFive.getTitle());
+        assertEquals(110.0, foundBookFive.getPrice());
+        assertEquals("Head First Design Patterns", foundBookFive.getTitle());
 
         BookVO foundBookTen = books.get(9);
 
@@ -255,11 +259,11 @@ public class BookControllerWithJsonTest extends AbstractIntegrationTest {
         assertNotNull(foundBookTen.getPrice());
         assertNotNull(foundBookTen.getTitle());
 
-        assertEquals(10L, foundBookTen.getId());
-        assertEquals("Susan Cain", foundBookTen.getAuthor());
+        assertEquals(13L, foundBookTen.getId());
+        assertEquals("Richard Hunter e George Westerman", foundBookTen.getAuthor());
         assertEquals("2017-11-07 15:09:01.674", DATE_FORMAT.format(foundBookTen.getLaunchDate()));
-        assertEquals(123.00, foundBookTen.getPrice());
-        assertEquals("O poder dos quietos", foundBookTen.getTitle());
+        assertEquals(95.0, foundBookTen.getPrice());
+        assertEquals("O verdadeiro valor de TI", foundBookTen.getTitle());
     }
 
     @Test
