@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -27,6 +26,7 @@ import brr.com.wesleypds.integrationtests.testcontainers.AbstractIntegrationTest
 import brr.com.wesleypds.integrationtests.vo.AccountCredentialsVO;
 import brr.com.wesleypds.integrationtests.vo.PersonVO;
 import brr.com.wesleypds.integrationtests.vo.TokenVO;
+import brr.com.wesleypds.integrationtests.vo.wrappers.WrapperPersonVOXml;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -255,6 +255,9 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
                 .spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .accept(TestConfigs.CONTENT_TYPE_XML)
+                .queryParam("page", 3)
+                .queryParam("size", 10)
+                .queryParam("direction", "asc")
                 .when()
                 .get()
                 .then()
@@ -263,8 +266,8 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
                 .body()
                 .asString();
 
-        List<PersonVO> people = mapper.readValue(content, new TypeReference<List<PersonVO>>() {
-        });
+        WrapperPersonVOXml wrapperPersoVO = mapper.readValue(content, WrapperPersonVOXml.class);
+        List<PersonVO> people = wrapperPersoVO.getPeople();
 
         PersonVO foundPersonOne = people.get(0);
 
@@ -276,10 +279,10 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonOne.getGender());
         assertNotNull(foundPersonOne.getEnabled());
 
-        assertEquals(1L, foundPersonOne.getId());
-        assertEquals("João", foundPersonOne.getFirstName());
-        assertEquals("Silva", foundPersonOne.getLastName());
-        assertEquals("Rua das Flores, 123", foundPersonOne.getAddress());
+        assertEquals(40L, foundPersonOne.getId());
+        assertEquals("Diego", foundPersonOne.getFirstName());
+        assertEquals("Mendes", foundPersonOne.getLastName());
+        assertEquals("Feira Nicolas Souza, 79", foundPersonOne.getAddress());
         assertEquals("Masculino", foundPersonOne.getGender());
         assertEquals(true, foundPersonOne.getEnabled());
 
@@ -293,10 +296,10 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonFive.getGender());
         assertNotNull(foundPersonFive.getEnabled());
 
-        assertEquals(5L, foundPersonFive.getId());
-        assertEquals("Carlos", foundPersonFive.getFirstName());
-        assertEquals("Pereira", foundPersonFive.getLastName());
-        assertEquals("Rua das Palmeiras, 1213", foundPersonFive.getAddress());
+        assertEquals(81L, foundPersonFive.getId());
+        assertEquals("Eduardo", foundPersonFive.getFirstName());
+        assertEquals("Ribeiro", foundPersonFive.getLastName());
+        assertEquals("Quadra Cardoso", foundPersonFive.getAddress());
         assertEquals("Masculino", foundPersonFive.getGender());
         assertEquals(true, foundPersonFive.getEnabled());
 
@@ -310,11 +313,11 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonTen.getGender());
         assertNotNull(foundPersonTen.getEnabled());
 
-        assertEquals(10L, foundPersonTen.getId());
-        assertEquals("Camila", foundPersonTen.getFirstName());
-        assertEquals("Ribeiro", foundPersonTen.getLastName());
-        assertEquals("Rua dos Lírios, 2223", foundPersonTen.getAddress());
-        assertEquals("Feminino", foundPersonTen.getGender());
+        assertEquals(97L, foundPersonTen.getId());
+        assertEquals("Enzo Gabriel", foundPersonTen.getFirstName());
+        assertEquals("Moreira", foundPersonTen.getLastName());
+        assertEquals("Sítio de Ferreira, 180", foundPersonTen.getAddress());
+        assertEquals("Masculino", foundPersonTen.getGender());
         assertEquals(true, foundPersonTen.getEnabled());
     }
 

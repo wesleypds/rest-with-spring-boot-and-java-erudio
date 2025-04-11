@@ -25,8 +25,8 @@ import brr.com.wesleypds.integrationtests.testcontainers.AbstractIntegrationTest
 import brr.com.wesleypds.integrationtests.vo.AccountCredentialsVO;
 import brr.com.wesleypds.integrationtests.vo.PersonVO;
 import brr.com.wesleypds.integrationtests.vo.TokenVO;
+import brr.com.wesleypds.integrationtests.vo.wrappers.WrapperPersonVOYaml;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.common.mapper.TypeRef;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.filter.log.LogDetail;
@@ -278,7 +278,6 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @Order(6)
     public void testFindAll() throws JsonMappingException, JsonProcessingException {
@@ -294,15 +293,18 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
                                                 .encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YML, ContentType.TEXT)))
                 .contentType(TestConfigs.CONTENT_TYPE_YML)
                 .accept(TestConfigs.CONTENT_TYPE_YML)
+                .queryParam("page", 3)
+                .queryParam("size", 10)
+                .queryParam("direction", "asc")
                 .when()
                 .get()
                 .then()
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(new TypeRef<List<PersonVO>>() {}.getType(), mapper);
+                .as(WrapperPersonVOYaml.class, mapper);
 
-        List<PersonVO> people = (List<PersonVO>) content;
+        List<PersonVO> people = content.getPeople();
 
         PersonVO foundPersonOne = people.get(0);
 
@@ -314,10 +316,10 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonOne.getGender());
         assertNotNull(foundPersonOne.getEnabled());
 
-        assertEquals(1L, foundPersonOne.getId());
-        assertEquals("João", foundPersonOne.getFirstName());
-        assertEquals("Silva", foundPersonOne.getLastName());
-        assertEquals("Rua das Flores, 123", foundPersonOne.getAddress());
+        assertEquals(40L, foundPersonOne.getId());
+        assertEquals("Diego", foundPersonOne.getFirstName());
+        assertEquals("Mendes", foundPersonOne.getLastName());
+        assertEquals("Feira Nicolas Souza, 79", foundPersonOne.getAddress());
         assertEquals("Masculino", foundPersonOne.getGender());
         assertEquals(true, foundPersonOne.getEnabled());
 
@@ -331,13 +333,12 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonFive.getGender());
         assertNotNull(foundPersonFive.getEnabled());
 
-        assertEquals(5L, foundPersonFive.getId());
-        assertEquals("Carlos", foundPersonFive.getFirstName());
-        assertEquals("Pereira", foundPersonFive.getLastName());
-        assertEquals("Rua das Palmeiras, 1213", foundPersonFive.getAddress());
+        assertEquals(81L, foundPersonFive.getId());
+        assertEquals("Eduardo", foundPersonFive.getFirstName());
+        assertEquals("Ribeiro", foundPersonFive.getLastName());
+        assertEquals("Quadra Cardoso", foundPersonFive.getAddress());
         assertEquals("Masculino", foundPersonFive.getGender());
         assertEquals(true, foundPersonFive.getEnabled());
-
         PersonVO foundPersonTen = people.get(9);
 
         assertNotNull(foundPersonTen);
@@ -348,11 +349,11 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonTen.getGender());
         assertNotNull(foundPersonTen.getEnabled());
 
-        assertEquals(10L, foundPersonTen.getId());
-        assertEquals("Camila", foundPersonTen.getFirstName());
-        assertEquals("Ribeiro", foundPersonTen.getLastName());
-        assertEquals("Rua dos Lírios, 2223", foundPersonTen.getAddress());
-        assertEquals("Feminino", foundPersonTen.getGender());
+        assertEquals(97L, foundPersonTen.getId());
+        assertEquals("Enzo Gabriel", foundPersonTen.getFirstName());
+        assertEquals("Moreira", foundPersonTen.getLastName());
+        assertEquals("Sítio de Ferreira, 180", foundPersonTen.getAddress());
+        assertEquals("Masculino", foundPersonTen.getGender());
         assertEquals(true, foundPersonTen.getEnabled());
     }
 
