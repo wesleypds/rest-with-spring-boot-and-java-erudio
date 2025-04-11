@@ -323,6 +323,47 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
 
     @Test
     @Order(7)
+    public void testFindPeopleByName() throws JsonMappingException, JsonProcessingException {
+
+        var content = given()
+                .spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
+                .queryParam("page", 0)
+                .queryParam("size", 10)
+                .queryParam("direction", "asc")
+                .when()
+                .get("/find-people-by-name/car")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        WrapperPersonVOXmlAndYaml wrapperPersoVO = mapper.readValue(content, WrapperPersonVOXmlAndYaml.class);
+        List<PersonVO> people = wrapperPersoVO.getPeople();
+
+        PersonVO foundPersonOne = people.get(0);
+
+        assertNotNull(foundPersonOne);
+        assertNotNull(foundPersonOne.getId());
+        assertNotNull(foundPersonOne.getFirstName());
+        assertNotNull(foundPersonOne.getLastName());
+        assertNotNull(foundPersonOne.getAddress());
+        assertNotNull(foundPersonOne.getGender());
+        assertNotNull(foundPersonOne.getEnabled());
+
+        assertEquals(9L, foundPersonOne.getId());
+        assertEquals("Ricardo", foundPersonOne.getFirstName());
+        assertEquals("Gomes", foundPersonOne.getLastName());
+        assertEquals("Avenida das Rosas, 2021", foundPersonOne.getAddress());
+        assertEquals("Masculino", foundPersonOne.getGender());
+        assertEquals(true, foundPersonOne.getEnabled());
+
+    }
+
+    @Test
+    @Order(8)
     public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 
         specification = new RequestSpecBuilder()
