@@ -7,13 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import brr.com.wesleypds.integrationtests.vo.PersonVO;
 
-public class WrapperPersonVOYaml implements Serializable {
+public class WrapperPersonVOXmlAndYaml implements Serializable {
 
     @JsonProperty("content")
     private List<PersonVO> people;
 
-    public WrapperPersonVOYaml() {
-    }
+    public WrapperPersonVOXmlAndYaml() {}
 
     public List<PersonVO> getPeople() {
         return people;
@@ -39,7 +38,7 @@ public class WrapperPersonVOYaml implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        WrapperPersonVOYaml other = (WrapperPersonVOYaml) obj;
+            WrapperPersonVOXmlAndYaml other = (WrapperPersonVOXmlAndYaml) obj;
         if (people == null) {
             if (other.people != null)
                 return false;

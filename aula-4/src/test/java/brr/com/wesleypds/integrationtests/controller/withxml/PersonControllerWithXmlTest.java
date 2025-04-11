@@ -26,7 +26,7 @@ import brr.com.wesleypds.integrationtests.testcontainers.AbstractIntegrationTest
 import brr.com.wesleypds.integrationtests.vo.AccountCredentialsVO;
 import brr.com.wesleypds.integrationtests.vo.PersonVO;
 import brr.com.wesleypds.integrationtests.vo.TokenVO;
-import brr.com.wesleypds.integrationtests.vo.wrappers.WrapperPersonVOXml;
+import brr.com.wesleypds.integrationtests.vo.wrappers.WrapperPersonVOXmlAndYaml;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -266,7 +266,7 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
                 .body()
                 .asString();
 
-        WrapperPersonVOXml wrapperPersoVO = mapper.readValue(content, WrapperPersonVOXml.class);
+        WrapperPersonVOXmlAndYaml wrapperPersoVO = mapper.readValue(content, WrapperPersonVOXmlAndYaml.class);
         List<PersonVO> people = wrapperPersoVO.getPeople();
 
         PersonVO foundPersonOne = people.get(0);

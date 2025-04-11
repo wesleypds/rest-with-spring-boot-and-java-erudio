@@ -25,7 +25,7 @@ import brr.com.wesleypds.integrationtests.testcontainers.AbstractIntegrationTest
 import brr.com.wesleypds.integrationtests.vo.AccountCredentialsVO;
 import brr.com.wesleypds.integrationtests.vo.PersonVO;
 import brr.com.wesleypds.integrationtests.vo.TokenVO;
-import brr.com.wesleypds.integrationtests.vo.wrappers.WrapperPersonVOYaml;
+import brr.com.wesleypds.integrationtests.vo.wrappers.WrapperPersonVOXmlAndYaml;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
@@ -302,7 +302,7 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(WrapperPersonVOYaml.class, mapper);
+                .as(WrapperPersonVOXmlAndYaml.class, mapper);
 
         List<PersonVO> people = content.getPeople();
 
