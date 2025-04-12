@@ -385,7 +385,7 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?direction=asc&amp;page=0&amp;size=10&amp;sort=firstName,asc</href>"));
         assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?page=0&amp;size=10&amp;direction=asc</href>"));
         assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?direction=asc&amp;page=1&amp;size=10&amp;sort=firstName,asc</href>"));
-        assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?direction=asc&amp;page=11&amp;size=10&amp;sort=firstName,asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?direction=asc&amp;page=10&amp;size=10&amp;sort=firstName,asc</href>"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/108"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/47"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/4"));
@@ -396,7 +396,7 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
         assertTrue(content.contains("http://localhost:8888/api/people/v1/38"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/19"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/89"));
-        assertTrue(content.contains("<page><size>10</size><totalElements>111</totalElements><totalPages>12</totalPages><number>0</number></page>"));
+        assertTrue(content.contains("<page><size>10</size><totalElements>110</totalElements><totalPages>11</totalPages><number>0</number></page>"));
         
     }
 

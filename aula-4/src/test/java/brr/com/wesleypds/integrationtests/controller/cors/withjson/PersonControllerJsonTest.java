@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -188,6 +189,19 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 
         assertNotNull(content);
         assertEquals("Invalid CORS request", content);
+    }
+
+    @Test
+    @Order(4)
+    public void testDelete() throws JsonMappingException, JsonProcessingException {
+
+        given().spec(specification)
+                .pathParam("id", person.getId())
+                .when()
+                .delete("{id}")
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+
     }
 
     private void mockPerson() {

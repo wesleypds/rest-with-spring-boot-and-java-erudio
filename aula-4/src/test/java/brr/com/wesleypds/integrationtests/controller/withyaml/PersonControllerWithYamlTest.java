@@ -431,9 +431,10 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
                 .asString();
 
         var content = unthreatedContent.replace("\n", "").replace("\r", ""); 
-        assertTrue(content.contains("http://localhost:8888/api/people/v1?direction=asc&page=0&size=10&sort=firstName,asc"));
-        assertTrue(content.contains("http://localhost:8888/api/people/v1?page=0&size=10&direction=asc"));
-        assertTrue(content.contains("http://localhost:8888/api/people/v1?direction=asc&page=1&size=10&sort=firstName,asc"));
+        assertTrue(content.contains("href: \"http://localhost:8888/api/people/v1?direction=asc&page=0&size=10&sort=firstName,asc\""));
+        assertTrue(content.contains("href: \"http://localhost:8888/api/people/v1?page=0&size=10&direction=asc\""));
+        assertTrue(content.contains("href: \"http://localhost:8888/api/people/v1?direction=asc&page=1&size=10&sort=firstName,asc\""));
+        assertTrue(content.contains("href: \"http://localhost:8888/api/people/v1?direction=asc&page=10&size=10&sort=firstName,asc\""));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/108"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/47"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/4"));
@@ -444,6 +445,10 @@ public class PersonControllerWithYamlTest extends AbstractIntegrationTest {
         assertTrue(content.contains("http://localhost:8888/api/people/v1/38"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/19"));
         assertTrue(content.contains("http://localhost:8888/api/people/v1/89"));
+        assertTrue(content.contains("size: 10"));
+        assertTrue(content.contains("totalElements: 110"));
+        assertTrue(content.contains("totalPages: 11"));
+        assertTrue(content.contains("number: 0"));
         
     }
 
