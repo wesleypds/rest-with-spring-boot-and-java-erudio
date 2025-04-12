@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -88,29 +87,6 @@ public class PersonServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(entity));
 
         service.delete(1L);
-    }
-
-    @Test
-    void testFindAll() {
-        List<Person> entityList = input.mockEntityList();
-
-        when(repository.findAll()).thenReturn(entityList);
-
-        var result = service.findAll();
-
-        assertNotNull(result);
-        assertEquals(14, result.size());
-
-        for (int i = 0; i < result.size(); i++) {
-            assertNotNull(result.get(i).getKey());
-            assertNotNull(result.get(i).getLinks());
-            assertTrue(result.get(i).toString().contains("links: [</api/people/v1/"+ i +">;rel=\"self\"]"));
-            assertEquals(entityList.get(i).getFirstName(), result.get(i).getFirstName());
-            assertEquals(entityList.get(i).getLastName(), result.get(i).getLastName());
-            assertEquals(entityList.get(i).getAddress(), result.get(i).getAddress());
-            assertEquals(entityList.get(i).getGender(), result.get(i).getGender());
-            assertEquals(entityList.get(i).getEnabled(), result.get(i).getEnabled());
-        }
     }
 
     @Test

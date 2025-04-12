@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -87,28 +86,6 @@ public class BookServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(entity));
 
         service.delete(1L);
-    }
-
-    @Test
-    void testFindAll() {
-        List<Book> entityList = input.mockEntityList();
-
-        when(repository.findAll()).thenReturn(entityList);
-
-        var result = service.findAll();
-
-        assertNotNull(result);
-        assertEquals(14, result.size());
-
-        for (int i = 0; i < result.size(); i++) {
-            assertNotNull(result.get(i).getKey());
-            assertNotNull(result.get(i).getLinks());
-            assertTrue(result.get(i).toString().contains("links: [</api/books/v1/"+ i +">;rel=\"self\"]"));
-            assertEquals(entityList.get(i).getAuthor(), result.get(i).getAuthor());
-            assertEquals(entityList.get(i).getLaunchDate(), result.get(i).getLaunchDate());
-            assertEquals(entityList.get(i).getPrice(), result.get(i).getPrice());
-            assertEquals(entityList.get(i).getTitle(), result.get(i).getTitle());
-        }
     }
 
     @Test

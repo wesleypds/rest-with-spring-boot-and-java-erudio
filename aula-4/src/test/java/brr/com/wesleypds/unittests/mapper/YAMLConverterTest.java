@@ -104,13 +104,11 @@ public class YAMLConverterTest {
 
         @Override
         public String getCharset() {
-            // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'getCharset'");
         }
 
         @Override
         public String getContentType() {
-            // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'getContentType'");
         }
     }
@@ -129,19 +127,16 @@ public class YAMLConverterTest {
 
         @Override
         public <T> T getObjectToSerializeAs(Class<T> expectedType) {
-            // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'getObjectToSerializeAs'");
         }
 
         @Override
         public String getContentType() {
-            // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'getContentType'");
         }
 
         @Override
         public String getCharset() {
-            // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'getCharset'");
         }
     }

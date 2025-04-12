@@ -277,6 +277,44 @@ public class BookControllerWithXmlTest extends AbstractIntegrationTest {
 
     @Test
     @Order(6)
+    public void testFindAllContainsLinks() throws JsonMappingException, JsonProcessingException {
+
+        var unthreatedContent = given()
+                .spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
+                .queryParam("page", 0)
+                .queryParam("size", 10)
+                .queryParam("direction", "asc")
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        var content = unthreatedContent.replace("\n", "").replace("\r", ""); 
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1?direction=asc&amp;page=0&amp;size=10&amp;sort=author,asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1?page=0&amp;size=10&amp;direction=asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1?direction=asc&amp;page=1&amp;size=10&amp;sort=author,asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1?direction=asc&amp;page=1&amp;size=10&amp;sort=author,asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/15</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/9</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/4</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/8</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/7</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/14</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/6</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/1</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/2</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/books/v1/13</href>"));
+        assertTrue(content.contains("<page><size>10</size><totalElements>15</totalElements><totalPages>2</totalPages><number>0</number></page>"));
+        
+    }
+
+    @Test
+    @Order(7)
     public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 
         specification = new RequestSpecBuilder()

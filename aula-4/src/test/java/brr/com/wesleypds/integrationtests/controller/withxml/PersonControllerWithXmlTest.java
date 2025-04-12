@@ -364,6 +364,44 @@ public class PersonControllerWithXmlTest extends AbstractIntegrationTest {
 
     @Test
     @Order(8)
+    public void testFindAllContainsLinks() throws JsonMappingException, JsonProcessingException {
+
+        var unthreatedContent = given()
+                .spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
+                .queryParam("page", 0)
+                .queryParam("size", 10)
+                .queryParam("direction", "asc")
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        var content = unthreatedContent.replace("\n", "").replace("\r", ""); 
+        assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?direction=asc&amp;page=0&amp;size=10&amp;sort=firstName,asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?page=0&amp;size=10&amp;direction=asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?direction=asc&amp;page=1&amp;size=10&amp;sort=firstName,asc</href>"));
+        assertTrue(content.contains("<href>http://localhost:8888/api/people/v1?direction=asc&amp;page=11&amp;size=10&amp;sort=firstName,asc</href>"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/108"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/47"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/4"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/57"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/68"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/75"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/26"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/38"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/19"));
+        assertTrue(content.contains("http://localhost:8888/api/people/v1/89"));
+        assertTrue(content.contains("<page><size>10</size><totalElements>111</totalElements><totalPages>12</totalPages><number>0</number></page>"));
+        
+    }
+
+    @Test
+    @Order(9)
     public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 
         specification = new RequestSpecBuilder()
