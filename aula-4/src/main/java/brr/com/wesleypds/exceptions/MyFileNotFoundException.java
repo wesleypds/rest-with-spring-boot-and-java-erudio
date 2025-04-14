@@ -8,7 +8,6 @@ public class MyFileNotFoundException extends RuntimeException {
     public MyFileNotFoundException(String msg) {
         super(msg);
     }
-
     public MyFileNotFoundException(String msg, Throwable cause) {
         super(msg, cause);
     }
