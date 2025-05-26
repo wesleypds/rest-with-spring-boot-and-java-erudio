@@ -20,7 +20,7 @@ import curso.spring.boot.model.mapper.ObjectMapper;
 import curso.spring.boot.service.PersonService;
 
 @RestController
-@RequestMapping(value = "/people")
+@RequestMapping(value = "api/people/v1")
 public class PersonController {
 
     @Autowired
