@@ -26,22 +26,22 @@ public class PersonController {
     @Autowired
     private PersonService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public List<PersonDTO> findAll() {
         return ObjectMapper.parseListObject(service.findAll(), PersonDTO.class);
     }
 
     @GetMapping(
         value = "/{id}",
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public PersonDTO findById(@PathVariable(name = "id") Long id) {
         return ObjectMapper.parseObject(service.findById(id), PersonDTO.class);
     }
 
     @PostMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
+        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public PersonDTO create(@RequestBody PersonDTO model) {
         PersonEntity entity = ObjectMapper.parseObject(model, PersonEntity.class);
@@ -49,8 +49,8 @@ public class PersonController {
     }
 
     @PutMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
+        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public PersonDTO update(@RequestBody PersonDTO model) {
         PersonEntity entity = ObjectMapper.parseObject(model, PersonEntity.class);

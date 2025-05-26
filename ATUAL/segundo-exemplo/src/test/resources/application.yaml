@@ -1,3 +1,7 @@
 spring:
   application:
-    name:primeiro-exemplo
+    name: primeiro-exemplo
+  datasource:
+    url: jdbc:postgresql://localhost:5432/segundo_exemplo
+    username: postgres
+    password: postgres
