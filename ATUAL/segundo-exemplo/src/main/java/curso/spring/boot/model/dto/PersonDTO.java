@@ -2,7 +2,9 @@ package curso.spring.boot.model.dto;
 
 import java.io.Serializable;
 
-public class PersonDTO implements Serializable {
+import org.springframework.hateoas.RepresentationModel;
+
+public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private Long id;
 

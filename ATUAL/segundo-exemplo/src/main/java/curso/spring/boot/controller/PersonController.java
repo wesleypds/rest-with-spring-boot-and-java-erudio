@@ -3,6 +3,7 @@ package curso.spring.boot.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,8 @@ public class PersonController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public List<PersonDTO> findAll() {
-        return ObjectMapper.parseListObject(service.findAll(), PersonDTO.class);
+        List<PersonDTO> list = ObjectMapper.parseListObject(service.findAll(), PersonDTO.class);
+        return list.stream().map(p -> service.addLinksHateoas(p)).toList();
     }
 
     @GetMapping(
@@ -36,7 +38,8 @@ public class PersonController {
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public PersonDTO findById(@PathVariable(name = "id") Long id) {
-        return ObjectMapper.parseObject(service.findById(id), PersonDTO.class);
+        var model = ObjectMapper.parseObject(service.findById(id), PersonDTO.class);
+        return service.addLinksHateoas(model);
     }
 
     @PostMapping(
@@ -45,7 +48,8 @@ public class PersonController {
     )
     public PersonDTO create(@RequestBody PersonDTO model) {
         PersonEntity entity = ObjectMapper.parseObject(model, PersonEntity.class);
-        return ObjectMapper.parseObject(service.create(entity), PersonDTO.class);
+        model = ObjectMapper.parseObject(service.create(entity), PersonDTO.class);
+        return service.addLinksHateoas(model);
     }
 
     @PutMapping(
@@ -54,7 +58,8 @@ public class PersonController {
     )
     public PersonDTO update(@RequestBody PersonDTO model) {
         PersonEntity entity = ObjectMapper.parseObject(model, PersonEntity.class);
-        return ObjectMapper.parseObject(service.update(entity), PersonDTO.class);
+        model = ObjectMapper.parseObject(service.update(entity), PersonDTO.class);
+        return service.addLinksHateoas(model);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -1,5 +1,8 @@
 package curso.spring.boot.service;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import curso.spring.boot.controller.PersonController;
 import curso.spring.boot.exception.ResourceNotFoundException;
+import curso.spring.boot.model.dto.PersonDTO;
 import curso.spring.boot.model.entity.PersonEntity;
 import curso.spring.boot.repository.PersonRepository;
 
@@ -62,6 +67,13 @@ public class PersonService {
         PersonEntity entity = findById(id);
 
         repository.delete(entity);
+    }
+
+    public PersonDTO addLinksHateoas(PersonDTO model) {
+        model.add(linkTo(methodOn(PersonController.class).findById(model.getId())).withRel("findById").withType("GET"));
+        model.add(linkTo(methodOn(PersonController.class).update(model)).withRel("update").withType("PUT"));
+        model.add(linkTo(methodOn(PersonController.class).delete(model.getId())).withRel("delete").withType("DELETE"));
+        return model;
     }
 
 }
