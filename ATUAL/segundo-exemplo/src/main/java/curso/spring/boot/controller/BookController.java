@@ -14,28 +14,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import curso.spring.boot.controller.docs.PersonControllerDocs;
-import curso.spring.boot.model.dto.PersonDTO;
-import curso.spring.boot.model.entity.PersonEntity;
+import curso.spring.boot.controller.docs.BookControllerDocs;
+import curso.spring.boot.model.dto.BookDTO;
+import curso.spring.boot.model.entity.BookEntity;
 import curso.spring.boot.model.mapper.ObjectMapper;
-import curso.spring.boot.service.PersonService;
+import curso.spring.boot.service.BookService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping(value = "api/people/v1")
-@Tag(name = "People", description = "Endpoints for managing people")
-public class PersonController implements PersonControllerDocs {
+@RequestMapping(value = "api/books/v1")
+@Tag(name = "Books", description = "Endpoints for managing books")
+public class BookController implements BookControllerDocs {
 
     @Autowired
-    private PersonService service;
+    private BookService service;
 
     @Autowired
     private ObjectMapper mapper;
 
     @Override
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
-    public List<PersonDTO> findAll() {
-        List<PersonDTO> list = mapper.parseListObject(service.findAll(), PersonDTO.class);
+    public List<BookDTO> findAll() {
+        List<BookDTO> list = mapper.parseListObject(service.findAll(), BookDTO.class);
         return service.addLinksHateoas(list);
     }
 
@@ -44,8 +44,8 @@ public class PersonController implements PersonControllerDocs {
         value = "/{id}",
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
-    public PersonDTO findById(@PathVariable(name = "id") Long id) {
-        var model = mapper.parseObject(service.findById(id), PersonDTO.class);
+    public BookDTO findById(@PathVariable(name = "id") Long id) {
+        var model = mapper.parseObject(service.findById(id), BookDTO.class);
         return service.addLinksHateoas(model);
     }
 
@@ -54,9 +54,9 @@ public class PersonController implements PersonControllerDocs {
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
         consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
-    public PersonDTO create(@RequestBody PersonDTO model) {
-        PersonEntity entity = mapper.parseObject(model, PersonEntity.class);
-        model = mapper.parseObject(service.create(entity), PersonDTO.class);
+    public BookDTO create(@RequestBody BookDTO model) {
+        BookEntity entity = mapper.parseObject(model, BookEntity.class);
+        model = mapper.parseObject(service.create(entity), BookDTO.class);
         return service.addLinksHateoas(model);
     }
 
@@ -65,9 +65,9 @@ public class PersonController implements PersonControllerDocs {
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
         consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
-    public PersonDTO update(@RequestBody PersonDTO model) {
-        PersonEntity entity = mapper.parseObject(model, PersonEntity.class);
-        model = mapper.parseObject(service.update(entity), PersonDTO.class);
+    public BookDTO update(@RequestBody BookDTO model) {
+        BookEntity entity = mapper.parseObject(model, BookEntity.class);
+        model = mapper.parseObject(service.update(entity), BookDTO.class);
         return service.addLinksHateoas(model);
     }
 

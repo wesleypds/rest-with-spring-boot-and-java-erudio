@@ -44,7 +44,7 @@ public class PersonService {
 
         if (entity == null) throw new RequiredObjectIsNullException();
 
-        logger.info("Creating one perso");
+        logger.info("Creating one person");
 
         return repository.save(entity);
     }
@@ -53,7 +53,7 @@ public class PersonService {
 
         if (entity == null) throw new RequiredObjectIsNullException();
 
-        logger.info("Updating one perso");
+        logger.info("Updating one person");
 
         PersonEntity e = findById(entity.getId());
 
