@@ -14,4 +14,9 @@ spring:
     open-in-view: false
 loggin:
   level:
-    curso.spring.boot: DEBUG
+    root: INFO
+    #curso.spring.boot: DEBUG
+spring-doc:
+  paths-to-match: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
