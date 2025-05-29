@@ -9,6 +9,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,41 +22,41 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import curso.spring.boot.mocks.MockPerson;
-import curso.spring.boot.model.dto.PersonDTO;
-import curso.spring.boot.model.entity.PersonEntity;
+import curso.spring.boot.mocks.MockBook;
+import curso.spring.boot.model.dto.BookDTO;
+import curso.spring.boot.model.entity.BookEntity;
 import curso.spring.boot.model.mapper.ObjectMapper;
-import curso.spring.boot.service.PersonService;
+import curso.spring.boot.service.BookService;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class PersonControllerTest {
+public class BookControllerTest {
 
-    MockPerson input;
+    MockBook input;
 
     @InjectMocks 
-    private PersonController controller;
+    private BookController controller;
 
     @Mock 
-    PersonService service;
+    BookService service;
 
     @Mock 
     ObjectMapper mapper;
 
     @BeforeEach
     void setUp() {
-        input = new MockPerson();
+        input = new MockBook();
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void testFindById() {
-        PersonEntity entity = input.mockEntity();
-        PersonDTO dto = input.mockDTO();
-        PersonDTO dtoWithHateoas = input.mockDTOWithHateoas();
+        BookEntity entity = input.mockEntity();
+        BookDTO dto = input.mockDTO();
+        BookDTO dtoWithHateoas = input.mockDTOWithHateoas();
 
         when(service.findById(entity.getId())).thenReturn(entity);
-        when(mapper.parseObject(entity, PersonDTO.class)).thenReturn(dto);
+        when(mapper.parseObject(entity, BookDTO.class)).thenReturn(dto);
         when(service.addLinksHateoas(dto)).thenReturn(dtoWithHateoas);
 
         var result = controller.findById(1L);
@@ -64,34 +66,34 @@ public class PersonControllerTest {
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("GET")));
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/person/v1") &&
+                        link.getHref().contains("/api/books/v1") &&
                         link.getType().equals("PUT")));
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("DELETE")));
 
         assertEquals(1, result.getId());
-        assertEquals("First Name Test1", result.getFirstName());
-        assertEquals("Last Name Test1", result.getLastName());
-        assertEquals("Address Test1", result.getAddress());
-        assertEquals("Female", result.getGender());
+        assertEquals("Author Test1", result.getAuthor());
+        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), result.getLaunchDate());
+        assertEquals(BigDecimal.valueOf(1L), result.getPrice());
+        assertEquals("Title Test1", result.getTitle());
 
     }
 
     @Test
     void testCreate() {
-        PersonEntity entity = input.mockEntity();
-        PersonDTO dto = input.mockDTO();
-        PersonDTO dtoWithHateoas = input.mockDTOWithHateoas();
+        BookEntity entity = input.mockEntity();
+        BookDTO dto = input.mockDTO();
+        BookDTO dtoWithHateoas = input.mockDTOWithHateoas();
 
-        when(mapper.parseObject(dto, PersonEntity.class)).thenReturn(entity);
+        when(mapper.parseObject(dto, BookEntity.class)).thenReturn(entity);
         when(service.create(entity)).thenReturn(entity);
-        when(mapper.parseObject(entity, PersonDTO.class)).thenReturn(dto);
+        when(mapper.parseObject(entity, BookDTO.class)).thenReturn(dto);
         when(service.addLinksHateoas(dto)).thenReturn(dtoWithHateoas);
 
         var result = controller.create(dto);
@@ -101,33 +103,33 @@ public class PersonControllerTest {
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("GET")));
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/person/v1") &&
+                        link.getHref().contains("/api/books/v1") &&
                         link.getType().equals("PUT")));
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("DELETE")));
 
         assertEquals(1, result.getId());
-        assertEquals("First Name Test1", result.getFirstName());
-        assertEquals("Last Name Test1", result.getLastName());
-        assertEquals("Address Test1", result.getAddress());
-        assertEquals("Female", result.getGender());
+        assertEquals("Author Test1", result.getAuthor());
+        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), result.getLaunchDate());
+        assertEquals(BigDecimal.valueOf(1L), result.getPrice());
+        assertEquals("Title Test1", result.getTitle());
     }
 
     @Test
     void testUpdate() {
-        PersonEntity entity = input.mockEntity();
-        PersonDTO dto = input.mockDTO();
-        PersonDTO dtoWithHateoas = input.mockDTOWithHateoas();
+        BookEntity entity = input.mockEntity();
+        BookDTO dto = input.mockDTO();
+        BookDTO dtoWithHateoas = input.mockDTOWithHateoas();
 
-        when(mapper.parseObject(dto, PersonEntity.class)).thenReturn(entity);
+        when(mapper.parseObject(dto, BookEntity.class)).thenReturn(entity);
         when(service.update(entity)).thenReturn(entity);
-        when(mapper.parseObject(entity, PersonDTO.class)).thenReturn(dto);
+        when(mapper.parseObject(entity, BookDTO.class)).thenReturn(dto);
         when(service.addLinksHateoas(dto)).thenReturn(dtoWithHateoas);
 
         var result = controller.update(dto);
@@ -137,32 +139,32 @@ public class PersonControllerTest {
         assertNotNull(result.getLinks());
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("GET")));
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/person/v1") &&
+                        link.getHref().contains("/api/books/v1") &&
                         link.getType().equals("PUT")));
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("DELETE")));
 
         assertEquals(1, result.getId());
-        assertEquals("First Name Test1", result.getFirstName());
-        assertEquals("Last Name Test1", result.getLastName());
-        assertEquals("Address Test1", result.getAddress());
-        assertEquals("Female", result.getGender());
+        assertEquals("Author Test1", result.getAuthor());
+        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), result.getLaunchDate());
+        assertEquals(BigDecimal.valueOf(1L), result.getPrice());
+        assertEquals("Title Test1", result.getTitle());
     }
 
     @Test
     void testFindAll() {
-        List<PersonEntity> entities = input.mockEntityList();
-        List<PersonDTO> dtos = input.mockDTOList();
-        List<PersonDTO> dtosWithHateoas = input.mockDTOWithHateoasList();
+        List<BookEntity> entities = input.mockEntityList();
+        List<BookDTO> dtos = input.mockDTOList();
+        List<BookDTO> dtosWithHateoas = input.mockDTOWithHateoasList();
 
         when(service.findAll()).thenReturn(entities);
-        when(mapper.parseListObject(entities, PersonDTO.class)).thenReturn(dtos);
+        when(mapper.parseListObject(entities, BookDTO.class)).thenReturn(dtos);
         when(service.addLinksHateoas(dtos)).thenReturn(dtosWithHateoas);
 
         var result = controller.findAll();
@@ -176,22 +178,22 @@ public class PersonControllerTest {
         assertNotNull(objPositionZero.getLinks());
         assertNotNull(objPositionZero.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("GET")));
         assertNotNull(objPositionZero.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/person/v1") &&
+                        link.getHref().contains("/api/books/v1") &&
                         link.getType().equals("PUT")));
         assertNotNull(objPositionZero.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/person/v1/1") &&
+                        link.getHref().contains("/api/books/v1/1") &&
                         link.getType().equals("DELETE")));
 
         assertEquals(1, objPositionZero.getId());
-        assertEquals("First Name Test1", objPositionZero.getFirstName());
-        assertEquals("Last Name Test1", objPositionZero.getLastName());
-        assertEquals("Address Test1", objPositionZero.getAddress());
-        assertEquals("Female", objPositionZero.getGender());
+        assertEquals("Author Test1", objPositionZero.getAuthor());
+        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionZero.getLaunchDate());
+        assertEquals(BigDecimal.valueOf(1L), objPositionZero.getPrice());
+        assertEquals("Title Test1", objPositionZero.getTitle());
 
         var objPositionSeven = result.get(7);
 
@@ -199,22 +201,22 @@ public class PersonControllerTest {
         assertNotNull(objPositionSeven.getLinks());
         assertNotNull(objPositionSeven.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/person/v1/8") &&
+                        link.getHref().contains("/api/books/v1/8") &&
                         link.getType().equals("GET")));
         assertNotNull(objPositionSeven.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/person/v1") &&
+                        link.getHref().contains("/api/books/v1") &&
                         link.getType().equals("PUT")));
         assertNotNull(objPositionSeven.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/person/v1/8") &&
+                        link.getHref().contains("/api/books/v1/8") &&
                         link.getType().equals("DELETE")));
 
         assertEquals(8, objPositionSeven.getId());
-        assertEquals("First Name Test8", objPositionSeven.getFirstName());
-        assertEquals("Last Name Test8", objPositionSeven.getLastName());
-        assertEquals("Address Test8", objPositionSeven.getAddress());
-        assertEquals("Male", objPositionSeven.getGender());
+        assertEquals("Author Test8", objPositionSeven.getAuthor());
+        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionSeven.getLaunchDate());
+        assertEquals(BigDecimal.valueOf(8L), objPositionSeven.getPrice());
+        assertEquals("Title Test8", objPositionSeven.getTitle());
 
         var objPositionThirteen = result.get(13);
 
@@ -222,22 +224,22 @@ public class PersonControllerTest {
         assertNotNull(objPositionThirteen.getLinks());
         assertNotNull(objPositionThirteen.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/person/v1/14") &&
+                        link.getHref().contains("/api/books/v1/14") &&
                         link.getType().equals("GET")));
         assertNotNull(objPositionThirteen.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/person/v1") &&
+                        link.getHref().contains("/api/books/v1") &&
                         link.getType().equals("PUT")));
         assertNotNull(objPositionThirteen.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/person/v1/14") &&
+                        link.getHref().contains("/api/books/v1/14") &&
                         link.getType().equals("DELETE")));
 
         assertEquals(14, objPositionThirteen.getId());
-        assertEquals("First Name Test14", objPositionThirteen.getFirstName());
-        assertEquals("Last Name Test14", objPositionThirteen.getLastName());
-        assertEquals("Address Test14", objPositionThirteen.getAddress());
-        assertEquals("Male", objPositionThirteen.getGender());
+        assertEquals("Author Test14", objPositionThirteen.getAuthor());
+        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionThirteen.getLaunchDate());
+        assertEquals(BigDecimal.valueOf(14L), objPositionThirteen.getPrice());
+        assertEquals("Title Test14", objPositionThirteen.getTitle());
     }
 
     @Test

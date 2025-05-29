@@ -1,4 +1,4 @@
-package curso.spring.boot.unitetests.mapper;
+package curso.spring.boot.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import curso.spring.boot.mocks.MockPerson;
 import curso.spring.boot.model.dto.PersonDTO;
 import curso.spring.boot.model.entity.PersonEntity;
 import curso.spring.boot.model.mapper.ObjectMapper;
-import curso.spring.boot.unitetests.mapper.mocks.MockPerson;
 
 
 public class ObjectMapperTests {

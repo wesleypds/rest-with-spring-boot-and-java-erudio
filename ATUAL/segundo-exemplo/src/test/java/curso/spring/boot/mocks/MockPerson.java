@@ -1,4 +1,4 @@
-package curso.spring.boot.unitetests.mapper.mocks;
+package curso.spring.boot.mocks;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
