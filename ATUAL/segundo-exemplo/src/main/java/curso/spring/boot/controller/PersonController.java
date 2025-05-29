@@ -33,7 +33,7 @@ public class PersonController {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public List<PersonDTO> findAll() {
         List<PersonDTO> list = mapper.parseListObject(service.findAll(), PersonDTO.class);
-        return list.stream().map(p -> service.addLinksHateoas(p)).toList();
+        return service.addLinksHateoas(list);
     }
 
     @GetMapping(

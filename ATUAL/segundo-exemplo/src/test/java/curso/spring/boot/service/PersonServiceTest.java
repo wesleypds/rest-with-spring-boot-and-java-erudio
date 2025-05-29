@@ -2,8 +2,15 @@ package curso.spring.boot.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -42,29 +49,105 @@ public class PersonServiceTest {
         PersonEntity entity = input.mockEntity();
 
         when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
+        
         var result = service.findById(1L);
         
         assertNotNull(result);
-        assertEquals(entity.getId(), result.getId());
+        assertNotNull(result.getId());
+
+        assertEquals(1, result.getId());
+        assertEquals("First Name Test1", result.getFirstName());
+        assertEquals("Last Name Test1", result.getLastName());
+        assertEquals("Address Test1", result.getAddress());
+        assertEquals("Female", result.getGender());
     }
 
     @Test
     void testCreate() {
+        PersonEntity entity = input.mockEntity();
 
-    }
+        when(repository.save(entity)).thenReturn(entity);
 
-    @Test
-    void testDelete() {
+        var result = service.create(entity);
 
+        assertNotNull(result);
+        assertNotNull(result.getId());
+
+        assertEquals(1, result.getId());
+        assertEquals("First Name Test1", result.getFirstName());
+        assertEquals("Last Name Test1", result.getLastName());
+        assertEquals("Address Test1", result.getAddress());
+        assertEquals("Female", result.getGender());
     }
 
     @Test
     void testUpdate() {
+        PersonEntity entity = input.mockEntity();
 
+        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
+        when(repository.save(entity)).thenReturn(entity);
+
+        var result = service.update(entity);
+
+        assertNotNull(result);
+        assertNotNull(result.getId());
+
+        assertEquals(1, result.getId());
+        assertEquals("First Name Test1", result.getFirstName());
+        assertEquals("Last Name Test1", result.getLastName());
+        assertEquals("Address Test1", result.getAddress());
+        assertEquals("Female", result.getGender());
     }
 
     @Test
     void testFindAll() {
+        List<PersonEntity> entities = input.mockEntityList();
 
+        when(repository.findAll()).thenReturn(entities);
+
+        var result = service.findAll();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+
+        var objPositionZero = result.get(0);
+
+        assertNotNull(objPositionZero.getId());
+        assertEquals(1, objPositionZero.getId());
+        assertEquals("First Name Test1", objPositionZero.getFirstName());
+        assertEquals("Last Name Test1", objPositionZero.getLastName());
+        assertEquals("Address Test1", objPositionZero.getAddress());
+        assertEquals("Female", objPositionZero.getGender());
+
+        var objPositionSeven = result.get(7);
+
+        assertNotNull(objPositionSeven.getId());
+        assertEquals(8, objPositionSeven.getId());
+        assertEquals("First Name Test8", objPositionSeven.getFirstName());
+        assertEquals("Last Name Test8", objPositionSeven.getLastName());
+        assertEquals("Address Test8", objPositionSeven.getAddress());
+        assertEquals("Male", objPositionSeven.getGender());
+
+        var objPositionThirteen = result.get(13);
+
+        assertNotNull(objPositionThirteen.getId());
+        assertEquals(14, objPositionThirteen.getId());
+        assertEquals("First Name Test14", objPositionThirteen.getFirstName());
+        assertEquals("Last Name Test14", objPositionThirteen.getLastName());
+        assertEquals("Address Test14", objPositionThirteen.getAddress());
+        assertEquals("Male", objPositionThirteen.getGender());
+    }
+
+    @Test
+    void testDelete() {
+        PersonEntity entity = input.mockEntity();
+
+        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
+        
+        service.delete(1L);
+
+        verify(repository, times(1)).findById(anyLong());
+        verify(repository, times(1)).delete(any(PersonEntity.class));
+        verifyNoMoreInteractions(repository);
     }
 }

@@ -76,4 +76,8 @@ public class PersonService {
         return model;
     }
 
+    public List<PersonDTO> addLinksHateoas(List<PersonDTO> models) {
+        return models.stream().map(m -> addLinksHateoas(m)).toList();
+    }
+
 }
