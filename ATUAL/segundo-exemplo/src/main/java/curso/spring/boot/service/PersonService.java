@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import curso.spring.boot.controller.PersonController;
+import curso.spring.boot.exception.RequiredObjectIsNullException;
 import curso.spring.boot.exception.ResourceNotFoundException;
 import curso.spring.boot.model.dto.PersonDTO;
 import curso.spring.boot.model.entity.PersonEntity;
@@ -41,12 +42,16 @@ public class PersonService {
 
     public PersonEntity create(PersonEntity entity) {
 
+        if (entity == null) throw new RequiredObjectIsNullException();
+
         logger.info("Creating one perso");
 
         return repository.save(entity);
     }
 
     public PersonEntity update(PersonEntity entity) {
+
+        if (entity == null) throw new RequiredObjectIsNullException();
 
         logger.info("Updating one perso");
 
