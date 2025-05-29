@@ -27,9 +27,12 @@ public class PersonController {
     @Autowired
     private PersonService service;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     public List<PersonDTO> findAll() {
-        List<PersonDTO> list = ObjectMapper.parseListObject(service.findAll(), PersonDTO.class);
+        List<PersonDTO> list = mapper.parseListObject(service.findAll(), PersonDTO.class);
         return list.stream().map(p -> service.addLinksHateoas(p)).toList();
     }
 
@@ -38,7 +41,7 @@ public class PersonController {
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public PersonDTO findById(@PathVariable(name = "id") Long id) {
-        var model = ObjectMapper.parseObject(service.findById(id), PersonDTO.class);
+        var model = mapper.parseObject(service.findById(id), PersonDTO.class);
         return service.addLinksHateoas(model);
     }
 
@@ -47,8 +50,8 @@ public class PersonController {
         consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public PersonDTO create(@RequestBody PersonDTO model) {
-        PersonEntity entity = ObjectMapper.parseObject(model, PersonEntity.class);
-        model = ObjectMapper.parseObject(service.create(entity), PersonDTO.class);
+        PersonEntity entity = mapper.parseObject(model, PersonEntity.class);
+        model = mapper.parseObject(service.create(entity), PersonDTO.class);
         return service.addLinksHateoas(model);
     }
 
@@ -57,8 +60,8 @@ public class PersonController {
         consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
     public PersonDTO update(@RequestBody PersonDTO model) {
-        PersonEntity entity = ObjectMapper.parseObject(model, PersonEntity.class);
-        model = ObjectMapper.parseObject(service.update(entity), PersonDTO.class);
+        PersonEntity entity = mapper.parseObject(model, PersonEntity.class);
+        model = mapper.parseObject(service.update(entity), PersonDTO.class);
         return service.addLinksHateoas(model);
     }
 
