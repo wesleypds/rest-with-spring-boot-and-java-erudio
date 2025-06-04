@@ -1,4 +1,4 @@
-package curso.spring.boot.controller;
+package curso.spring.boot.unittests.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import curso.spring.boot.controller.PersonController;
 import curso.spring.boot.mocks.MockPerson;
 import curso.spring.boot.model.dto.PersonDTO;
 import curso.spring.boot.model.entity.PersonEntity;
