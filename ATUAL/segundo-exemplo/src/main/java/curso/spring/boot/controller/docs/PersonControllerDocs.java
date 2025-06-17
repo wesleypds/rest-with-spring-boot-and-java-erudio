@@ -83,6 +83,22 @@ public interface PersonControllerDocs {
     )
     PersonDTO update(PersonDTO model);
 
+    @Operation(summary = "Disable a person",
+        tags = "People",
+        responses = {
+            @ApiResponse(
+                description = "Success", 
+                responseCode = "200", 
+                content = @Content(schema = @Schema(implementation = PersonDTO.class))),
+            @ApiResponse(description = "No content", responseCode = "204", content = @Content),
+            @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
+        }
+    )
+    PersonDTO disablePerson(Long id);
+
     @Operation(summary = "Delete a person",
         tags = "People",
         responses = {

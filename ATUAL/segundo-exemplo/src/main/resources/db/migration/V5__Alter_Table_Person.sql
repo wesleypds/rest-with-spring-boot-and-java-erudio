@@ -1,0 +1,1 @@
+ALTER TABLE person ADD COLUMN enabled BOOL NOT NULL DEFAULT true;

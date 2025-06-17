@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,6 +69,16 @@ public class PersonController implements PersonControllerDocs {
     public PersonDTO update(@RequestBody PersonDTO model) {
         PersonEntity entity = mapper.parseObject(model, PersonEntity.class);
         model = mapper.parseObject(service.update(entity), PersonDTO.class);
+        return service.addLinksHateoas(model);
+    }
+
+    @Override
+    @PatchMapping(
+        value = "/{id}",
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
+    )
+    public PersonDTO disablePerson(@PathVariable(name = "id") Long id) {
+        PersonDTO model = mapper.parseObject(service.disablePerson(id), PersonDTO.class);
         return service.addLinksHateoas(model);
     }
 

@@ -16,6 +16,7 @@ import curso.spring.boot.exception.ResourceNotFoundException;
 import curso.spring.boot.model.dto.PersonDTO;
 import curso.spring.boot.model.entity.PersonEntity;
 import curso.spring.boot.repository.PersonRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PersonService {
@@ -65,6 +66,18 @@ public class PersonService {
         return repository.save(e);
     }
 
+    @Transactional
+    public PersonEntity disablePerson(Long id) {
+
+        logger.info("Disabling one person");
+
+        findById(id);
+
+        repository.disablePerson(id);
+
+        return findById(id);
+    }
+
     public void delete(Long id) {
 
         logger.info("Deleting one person");
@@ -77,6 +90,7 @@ public class PersonService {
     public PersonDTO addLinksHateoas(PersonDTO model) {
         model.add(linkTo(methodOn(PersonController.class).findById(model.getId())).withRel("findById").withType("GET"));
         model.add(linkTo(methodOn(PersonController.class).update(model)).withRel("update").withType("PUT"));
+        model.add(linkTo(methodOn(PersonController.class).disablePerson(model.getId())).withRel("disablePerson").withType("PATCH"));
         model.add(linkTo(methodOn(PersonController.class).delete(model.getId())).withRel("delete").withType("DELETE"));
         return model;
     }

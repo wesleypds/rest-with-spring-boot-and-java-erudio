@@ -29,14 +29,18 @@ public class PersonEntity implements Serializable {
     @Column(nullable = false, length = 10)
     private String gender;
 
+    @Column(nullable = false)
+    private Boolean enabled;
+
     public PersonEntity() {}
 
-    public PersonEntity(Long id, String firstName, String lastName, String address, String gender) {
+    public PersonEntity(Long id, String firstName, String lastName, String address, String gender, Boolean enabled) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -77,6 +81,14 @@ public class PersonEntity implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
     }
 
     @Override
