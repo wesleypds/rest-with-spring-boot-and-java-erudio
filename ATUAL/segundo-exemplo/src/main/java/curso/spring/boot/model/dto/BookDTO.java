@@ -1,10 +1,9 @@
 package curso.spring.boot.model.dto;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class BookDTO extends GenericDTO<BookDTO> implements Serializable {
+public class BookDTO extends GenericDTO<BookDTO> {
 
     private String author;
 

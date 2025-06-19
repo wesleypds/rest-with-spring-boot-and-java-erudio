@@ -1,11 +1,9 @@
 package curso.spring.boot.model.dto;
 
-import java.io.Serializable;
-
 import org.springframework.hateoas.server.core.Relation;
 
 @Relation(collectionRelation = "people")
-public class PersonDTO extends GenericDTO<PersonDTO> implements Serializable {
+public class PersonDTO extends GenericDTO<PersonDTO> {
 
     private String firstName;
 

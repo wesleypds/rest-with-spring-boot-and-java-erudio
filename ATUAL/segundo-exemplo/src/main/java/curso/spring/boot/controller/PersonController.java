@@ -60,6 +60,24 @@ public class PersonController implements PersonControllerDocs {
     }
 
     @Override
+    @GetMapping(value = "/byname/{firstName}", produces = { 
+            MediaType.APPLICATION_JSON_VALUE, 
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_YAML_VALUE })
+    public ResponseEntity<PagedModel<EntityModel<PersonDTO>>> findPeopleByName(@PathVariable(name = "firstName") String firstName,
+                                                    @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                    @RequestParam(name = "size", defaultValue = "10") Integer size,
+                                                    @RequestParam(name = "direction", defaultValue = "asc") String direction,
+                                                    @RequestParam(name = "field", defaultValue = "id") String field) {
+        
+        Pageable pageable = Util.resolvePageable(page, size, direction, field);
+        Page<PersonDTO> list = service.addLinksHateoasFindAll(service.findPeopleByName(firstName,pageable), mapper);
+        Link pageLinks = service.addLinksHateoasPage(list, pageable, field);
+
+        return ResponseEntity.ok().body(assembler.toModel(list, pageLinks));
+    }
+
+    @Override
     @GetMapping(value = "/{id}", produces = { 
             MediaType.APPLICATION_JSON_VALUE, 
             MediaType.APPLICATION_XML_VALUE,

@@ -13,7 +13,6 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
 import curso.spring.boot.controller.BookController;
-import curso.spring.boot.controller.PersonController;
 import curso.spring.boot.exception.RequiredObjectIsNullException;
 import curso.spring.boot.exception.ResourceNotFoundException;
 import curso.spring.boot.model.dto.BookDTO;

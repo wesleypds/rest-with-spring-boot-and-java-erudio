@@ -35,6 +35,12 @@ public class PersonService {
         return repository.findAll(pageable);
     }
 
+    public Page<PersonEntity> findPeopleByName(String firstName, Pageable pageable) {
+        
+        logger.info("Finding all people by name!");
+        return repository.findPeopleByName(firstName, pageable);
+    }
+
     public PersonEntity findById(Long id) {
 
         logger.info("Finding one person");
