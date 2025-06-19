@@ -1,9 +1,10 @@
 package curso.spring.boot.controller.docs;
 
-import java.util.List;
-
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import curso.spring.boot.model.dto.BookDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +34,10 @@ public interface BookControllerDocs {
             @ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
         }
     )
-    List<BookDTO> findAll();
+    ResponseEntity<PagedModel<EntityModel<BookDTO>>> findAll(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                    @RequestParam(name = "size", defaultValue = "10") Integer size,
+                                                    @RequestParam(name = "direction", defaultValue = "asc") String direction,
+                                                    @RequestParam(name = "field", defaultValue = "id") String field);
 
     @Operation(summary = "Find a book",
         tags = "Books",

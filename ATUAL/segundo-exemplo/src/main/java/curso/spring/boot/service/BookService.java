@@ -3,18 +3,22 @@ package curso.spring.boot.service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
 import curso.spring.boot.controller.BookController;
+import curso.spring.boot.controller.PersonController;
 import curso.spring.boot.exception.RequiredObjectIsNullException;
 import curso.spring.boot.exception.ResourceNotFoundException;
 import curso.spring.boot.model.dto.BookDTO;
 import curso.spring.boot.model.entity.BookEntity;
+import curso.spring.boot.model.mapper.ObjectMapper;
 import curso.spring.boot.repository.BookRepository;
 
 @Service
@@ -25,11 +29,11 @@ public class BookService {
 
     private Logger logger = LoggerFactory.getLogger(BookService.class.getName());
 
-    public List<BookEntity> findAll() {
+    public Page<BookEntity> findAll(Pageable pageable) {
         
         logger.info("Finding all books!");
 
-        return repository.findAll();
+        return repository.findAll(pageable);
     }
 
     public BookEntity findById(Long id) {
@@ -81,8 +85,23 @@ public class BookService {
         return model;
     }
 
-    public List<BookDTO> addLinksHateoas(List<BookDTO> models) {
-        return models.stream().map(m -> addLinksHateoas(m)).toList();
+    public Page<BookDTO> addLinksHateoasFindAll(Page<BookEntity> list, ObjectMapper mapper) {
+        return list.map(entity -> {
+            var convertedValue = mapper.parseObject(entity, BookDTO.class);
+            return addLinksHateoas(convertedValue);
+        });
+    }
+
+    public Link addLinksHateoasPage(Page<BookDTO> links, Pageable pageable, String field) {
+        return WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(BookController.class)
+                .findAll(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    pageable.getSort().toString(),
+                    field
+                ))
+                .withSelfRel();
     }
 
 }

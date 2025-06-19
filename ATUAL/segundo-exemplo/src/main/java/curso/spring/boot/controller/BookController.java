@@ -1,8 +1,12 @@
 package curso.spring.boot.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import curso.spring.boot.controller.docs.BookControllerDocs;
@@ -19,6 +24,7 @@ import curso.spring.boot.model.dto.BookDTO;
 import curso.spring.boot.model.entity.BookEntity;
 import curso.spring.boot.model.mapper.ObjectMapper;
 import curso.spring.boot.service.BookService;
+import curso.spring.boot.utils.Util;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -32,28 +38,47 @@ public class BookController implements BookControllerDocs {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private PagedResourcesAssembler<BookDTO> assembler;
+
     @Override
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
-    public List<BookDTO> findAll() {
-        List<BookDTO> list = mapper.parseListObject(service.findAll(), BookDTO.class);
-        return service.addLinksHateoas(list);
+    @GetMapping(produces = {
+        MediaType.APPLICATION_JSON_VALUE, 
+        MediaType.APPLICATION_XML_VALUE, 
+        MediaType.APPLICATION_YAML_VALUE})
+    public ResponseEntity<PagedModel<EntityModel<BookDTO>>> findAll(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                    @RequestParam(name = "size", defaultValue = "10") Integer size,
+                                                    @RequestParam(name = "direction", defaultValue = "asc") String direction,
+                                                    @RequestParam(name = "field", defaultValue = "id") String field) {
+        
+        Pageable pageable = Util.resolvePageable(page, size, direction, field);
+        Page<BookDTO> list = service.addLinksHateoasFindAll(service.findAll(pageable), mapper);
+        Link pageLinks = service.addLinksHateoasPage(list, pageable, field);
+
+        return ResponseEntity.ok().body(assembler.toModel(list, pageLinks));
     }
 
     @Override
     @GetMapping(
         value = "/{id}",
-        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
-    )
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE, 
+            MediaType.APPLICATION_XML_VALUE, 
+            MediaType.APPLICATION_YAML_VALUE})
     public BookDTO findById(@PathVariable(name = "id") Long id) {
         var model = mapper.parseObject(service.findById(id), BookDTO.class);
         return service.addLinksHateoas(model);
     }
 
     @Override
-    @PostMapping(
-        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
-        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
-    )
+    @PostMapping(produces = {
+                    MediaType.APPLICATION_JSON_VALUE, 
+                    MediaType.APPLICATION_XML_VALUE, 
+                    MediaType.APPLICATION_YAML_VALUE},
+                consumes = {
+                    MediaType.APPLICATION_JSON_VALUE, 
+                    MediaType.APPLICATION_XML_VALUE, 
+                    MediaType.APPLICATION_YAML_VALUE})
     public BookDTO create(@RequestBody BookDTO model) {
         BookEntity entity = mapper.parseObject(model, BookEntity.class);
         model = mapper.parseObject(service.create(entity), BookDTO.class);
@@ -61,10 +86,14 @@ public class BookController implements BookControllerDocs {
     }
 
     @Override
-    @PutMapping(
-        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
-        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
-    )
+    @PutMapping(produces = {
+                    MediaType.APPLICATION_JSON_VALUE, 
+                    MediaType.APPLICATION_XML_VALUE, 
+                    MediaType.APPLICATION_YAML_VALUE},
+                consumes = {
+                    MediaType.APPLICATION_JSON_VALUE, 
+                    MediaType.APPLICATION_XML_VALUE, 
+                    MediaType.APPLICATION_YAML_VALUE})
     public BookDTO update(@RequestBody BookDTO model) {
         BookEntity entity = mapper.parseObject(model, BookEntity.class);
         model = mapper.parseObject(service.update(entity), BookDTO.class);
