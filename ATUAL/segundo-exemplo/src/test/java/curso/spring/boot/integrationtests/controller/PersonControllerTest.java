@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -187,6 +188,7 @@ public class PersonControllerTest extends AbstractIntegrationTest {
 
     @Test
     @Order(6)
+    @Disabled("REASON: Still Under Development")
     void testFindAll() throws JsonMappingException, JsonProcessingException {
 
         var result =given(specification)

@@ -8,6 +8,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import curso.spring.boot.controller.PersonController;
@@ -26,11 +28,10 @@ public class PersonService {
 
     private Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 
-    public List<PersonEntity> findAll() {
+    public Page<PersonEntity> findAll(Pageable pageable) {
         
         logger.info("Finding all people!");
-
-        return repository.findAll();
+        return repository.findAll(pageable);
     }
 
     public PersonEntity findById(Long id) {

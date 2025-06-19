@@ -2,8 +2,10 @@ package curso.spring.boot.controller.docs;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import curso.spring.boot.model.dto.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +35,7 @@ public interface PersonControllerDocs {
             @ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
         }
     )
-    List<PersonDTO> findAll();
+    ResponseEntity<Page<PersonDTO>> findAll(Integer page, Integer size, String direction, String field);
 
     @Operation(summary = "Find a person",
         tags = "People",
