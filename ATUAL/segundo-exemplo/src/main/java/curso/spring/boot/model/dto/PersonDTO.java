@@ -2,13 +2,10 @@ package curso.spring.boot.model.dto;
 
 import java.io.Serializable;
 
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 @Relation(collectionRelation = "people")
-public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
-
-    private Long id;
+public class PersonDTO extends GenericDTO<PersonDTO> implements Serializable {
 
     private String firstName;
 
@@ -20,23 +17,14 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 
     private Boolean enabled;
 
-    public PersonDTO() {}
+    public PersonDTO() {super();}
 
-    public PersonDTO(Long id, String firstName, String lastName, String address, String gender, Boolean enabled) {
-        this.id = id;
+    public PersonDTO(String firstName, String lastName, String address, String gender, Boolean enabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
         this.enabled = enabled;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {

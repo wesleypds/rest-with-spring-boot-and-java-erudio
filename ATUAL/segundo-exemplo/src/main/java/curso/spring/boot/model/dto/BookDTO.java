@@ -4,11 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import org.springframework.hateoas.RepresentationModel;
-
-public class BookDTO extends RepresentationModel<BookDTO> implements Serializable {
-
-    private Long id;
+public class BookDTO extends GenericDTO<BookDTO> implements Serializable {
 
     private String author;
 
@@ -21,19 +17,10 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
     public BookDTO() {}
 
     public BookDTO(Long id, String author, LocalDateTime launchDate, BigDecimal price, String title) {
-        this.id = id;
         this.author = author;
         this.launchDate = launchDate;
         this.price = price;
         this.title = title;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getAuthor() {
