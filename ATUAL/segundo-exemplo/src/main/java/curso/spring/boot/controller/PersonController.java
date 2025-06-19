@@ -3,6 +3,10 @@ package curso.spring.boot.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,23 +39,24 @@ public class PersonController implements PersonControllerDocs {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private PagedResourcesAssembler<PersonDTO> assembler;
+
     @Override
     @GetMapping(produces = { 
             MediaType.APPLICATION_JSON_VALUE, 
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_YAML_VALUE })
-    public ResponseEntity<Page<PersonDTO>> findAll(@RequestParam(name = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<PagedModel<EntityModel<PersonDTO>>> findAll(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                                     @RequestParam(name = "size", defaultValue = "10") Integer size,
                                                     @RequestParam(name = "direction", defaultValue = "asc") String direction,
                                                     @RequestParam(name = "field", defaultValue = "id") String field) {
         
         Pageable pageable = Util.resolvePageable(page, size, direction, field);
-        Page<PersonDTO> list = service.findAll(pageable).map(entity -> {
-            var convertedValue = mapper.parseObject(entity, PersonDTO.class);
-            return service.addLinksHateoas(convertedValue);
-        });
+        Page<PersonDTO> list = service.addLinksHateoasFindAll(service.findAll(pageable), mapper);
+        Link pageLinks = service.addLinksHateoasPage(list, pageable, field);
 
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(assembler.toModel(list, pageLinks));
     }
 
     @Override

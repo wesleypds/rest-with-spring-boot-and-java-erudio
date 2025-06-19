@@ -3,7 +3,9 @@ package curso.spring.boot.model.dto;
 import java.io.Serializable;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
+@Relation(collectionRelation = "people")
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private Long id;
