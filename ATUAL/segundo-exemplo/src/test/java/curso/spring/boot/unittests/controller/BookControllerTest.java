@@ -2,7 +2,6 @@ package curso.spring.boot.unittests.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,11 +10,8 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -158,92 +154,6 @@ public class BookControllerTest {
         assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), result.getLaunchDate());
         assertEquals(BigDecimal.valueOf(1L), result.getPrice());
         assertEquals("Title Test1", result.getTitle());
-    }
-
-    @Test
-    @Disabled("REASON: Still Under Development")
-    void testFindAll() {
-        List<BookEntity> entities = input.mockEntityList();
-        List<BookDTO> dtos = input.mockDTOList();
-        List<BookDTO> dtosWithHateoas = input.mockDTOWithHateoasList();
-
-        // when(service.findAll()).thenReturn(entities);
-        // when(mapper.parseListObject(entities, BookDTO.class)).thenReturn(dtos);
-        // when(service.addLinksHateoas(dtos)).thenReturn(dtosWithHateoas);
-
-        List<BookDTO> result = new ArrayList<>();
-
-        assertNotNull(result);
-        assertTrue(result.size() > 0);
-
-        var objPositionZero = result.get(0);
-
-        assertNotNull(objPositionZero.getId());
-        assertNotNull(objPositionZero.getLinks());
-        assertNotNull(objPositionZero.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/books/v1/1") &&
-                        link.getType().equals("GET")));
-        assertNotNull(objPositionZero.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/books/v1") &&
-                        link.getType().equals("PUT")));
-        assertNotNull(objPositionZero.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/books/v1/1") &&
-                        link.getType().equals("DELETE")));
-
-        assertEquals(1, objPositionZero.getId());
-        assertEquals("Author Test1", objPositionZero.getAuthor());
-        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionZero.getLaunchDate());
-        assertEquals(BigDecimal.valueOf(1L), objPositionZero.getPrice());
-        assertEquals("Title Test1", objPositionZero.getTitle());
-
-        var objPositionSeven = result.get(7);
-
-        assertNotNull(objPositionSeven.getId());
-        assertNotNull(objPositionSeven.getLinks());
-        assertNotNull(objPositionSeven.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/books/v1/8") &&
-                        link.getType().equals("GET")));
-        assertNotNull(objPositionSeven.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/books/v1") &&
-                        link.getType().equals("PUT")));
-        assertNotNull(objPositionSeven.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/books/v1/8") &&
-                        link.getType().equals("DELETE")));
-
-        assertEquals(8, objPositionSeven.getId());
-        assertEquals("Author Test8", objPositionSeven.getAuthor());
-        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionSeven.getLaunchDate());
-        assertEquals(BigDecimal.valueOf(8L), objPositionSeven.getPrice());
-        assertEquals("Title Test8", objPositionSeven.getTitle());
-
-        var objPositionThirteen = result.get(13);
-
-        assertNotNull(objPositionThirteen.getId());
-        assertNotNull(objPositionThirteen.getLinks());
-        assertNotNull(objPositionThirteen.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("findById") &&
-                        link.getHref().contains("/api/books/v1/14") &&
-                        link.getType().equals("GET")));
-        assertNotNull(objPositionThirteen.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("update") &&
-                        link.getHref().contains("/api/books/v1") &&
-                        link.getType().equals("PUT")));
-        assertNotNull(objPositionThirteen.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("delete") &&
-                        link.getHref().contains("/api/books/v1/14") &&
-                        link.getType().equals("DELETE")));
-
-        assertEquals(14, objPositionThirteen.getId());
-        assertEquals("Author Test14", objPositionThirteen.getAuthor());
-        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionThirteen.getLaunchDate());
-        assertEquals(BigDecimal.valueOf(14L), objPositionThirteen.getPrice());
-        assertEquals("Title Test14", objPositionThirteen.getTitle());
     }
 
     @Test

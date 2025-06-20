@@ -3,7 +3,6 @@ package curso.spring.boot.unittests.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
@@ -13,12 +12,9 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -144,46 +140,6 @@ public class BookServiceTest {
 
         assertNotNull(exception);
         assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    @Disabled("REASON: Still Under Development")
-    void testFindAll() {
-        List<BookEntity> entities = input.mockEntityList();
-
-        when(repository.findAll()).thenReturn(entities);
-
-        List<BookEntity> result = new ArrayList<>();
-
-        assertNotNull(result);
-        assertTrue(result.size() > 0);
-
-        var objPositionZero = result.get(0);
-
-        assertNotNull(objPositionZero.getId());
-        assertEquals(1, objPositionZero.getId());
-        assertEquals("Author Test1", objPositionZero.getAuthor());
-        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionZero.getLaunchDate());
-        assertEquals(BigDecimal.valueOf(1L), objPositionZero.getPrice());
-        assertEquals("Title Test1", objPositionZero.getTitle());
-
-        var objPositionSeven = result.get(7);
-
-        assertNotNull(objPositionSeven.getId());
-        assertEquals(8, objPositionSeven.getId());
-        assertEquals("Author Test8", objPositionSeven.getAuthor());
-        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionSeven.getLaunchDate());
-        assertEquals(BigDecimal.valueOf(8L), objPositionSeven.getPrice());
-        assertEquals("Title Test8", objPositionSeven.getTitle());
-
-        var objPositionThirteen = result.get(13);
-
-        assertNotNull(objPositionThirteen.getId());
-        assertEquals(14, objPositionThirteen.getId());
-        assertEquals("Author Test14", objPositionThirteen.getAuthor());
-        assertEquals(LocalDateTime.of(2025, 05, 29, 00, 00, 00), objPositionThirteen.getLaunchDate());
-        assertEquals(BigDecimal.valueOf(14L), objPositionThirteen.getPrice());
-        assertEquals("Title Test14", objPositionThirteen.getTitle());
     }
 
     @Test

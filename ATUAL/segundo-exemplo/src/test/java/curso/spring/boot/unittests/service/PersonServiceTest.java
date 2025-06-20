@@ -3,7 +3,6 @@ package curso.spring.boot.unittests.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
@@ -11,12 +10,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +24,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import curso.spring.boot.exception.RequiredObjectIsNullException;
 import curso.spring.boot.exception.ResourceNotFoundException;
 import curso.spring.boot.mocks.MockPerson;
-import curso.spring.boot.model.dto.PersonDTO;
 import curso.spring.boot.model.entity.PersonEntity;
 import curso.spring.boot.repository.PersonRepository;
 import curso.spring.boot.service.PersonService;
@@ -143,46 +138,6 @@ public class PersonServiceTest {
 
         assertNotNull(exception);
         assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    @Disabled("REASON: Still Under Development")
-    void testFindAll() {
-        List<PersonEntity> entities = input.mockEntityList();
-
-        when(repository.findAll()).thenReturn(entities);
-
-        List<PersonDTO> result = new ArrayList<>();
-
-        assertNotNull(result);
-        assertTrue(result.size() > 0);
-
-        var objPositionZero = result.get(0);
-
-        assertNotNull(objPositionZero.getId());
-        assertEquals(1, objPositionZero.getId());
-        assertEquals("First Name Test1", objPositionZero.getFirstName());
-        assertEquals("Last Name Test1", objPositionZero.getLastName());
-        assertEquals("Address Test1", objPositionZero.getAddress());
-        assertEquals("Female", objPositionZero.getGender());
-
-        var objPositionSeven = result.get(7);
-
-        assertNotNull(objPositionSeven.getId());
-        assertEquals(8, objPositionSeven.getId());
-        assertEquals("First Name Test8", objPositionSeven.getFirstName());
-        assertEquals("Last Name Test8", objPositionSeven.getLastName());
-        assertEquals("Address Test8", objPositionSeven.getAddress());
-        assertEquals("Male", objPositionSeven.getGender());
-
-        var objPositionThirteen = result.get(13);
-
-        assertNotNull(objPositionThirteen.getId());
-        assertEquals(14, objPositionThirteen.getId());
-        assertEquals("First Name Test14", objPositionThirteen.getFirstName());
-        assertEquals("Last Name Test14", objPositionThirteen.getLastName());
-        assertEquals("Address Test14", objPositionThirteen.getAddress());
-        assertEquals("Male", objPositionThirteen.getGender());
     }
 
     @Test

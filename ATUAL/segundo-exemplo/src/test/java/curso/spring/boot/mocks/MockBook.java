@@ -8,12 +8,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+
 import curso.spring.boot.controller.BookController;
 import curso.spring.boot.model.dto.BookDTO;
 import curso.spring.boot.model.entity.BookEntity;
+import curso.spring.boot.model.mapper.ObjectMapper;
 
 public class MockBook {
-
 
     public BookEntity mockEntity() {
         return mockEntity(1);
@@ -82,10 +87,30 @@ public class MockBook {
         return bookDTO;
     }
 
-    private void addLinksHateoas(BookDTO bookDTO) {
-        bookDTO.add(linkTo(methodOn(BookController.class).findById(bookDTO.getId())).withRel("findById").withType("GET"));
-        bookDTO.add(linkTo(methodOn(BookController.class).update(bookDTO)).withRel("update").withType("PUT"));
-        bookDTO.add(linkTo(methodOn(BookController.class).delete(bookDTO.getId())).withRel("delete").withType("DELETE"));
+    public BookDTO addLinksHateoas(BookDTO model) {
+        model.add(linkTo(methodOn(BookController.class).findById(model.getId())).withRel("findById").withType("GET"));
+        model.add(linkTo(methodOn(BookController.class).update(model)).withRel("update").withType("PUT"));
+        model.add(linkTo(methodOn(BookController.class).delete(model.getId())).withRel("delete").withType("DELETE"));
+        return model;
+    }
+
+    public Page<BookDTO> addLinksHateoasFindAll(Page<BookEntity> list, ObjectMapper mapper) {
+        return list.map(entity -> {
+            var convertedValue = mapper.parseObject(entity, BookDTO.class);
+            return addLinksHateoas(convertedValue);
+        });
+    }
+
+    public Link addLinksHateoasPage(Page<BookDTO> links, Pageable pageable, String field) {
+        return WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(BookController.class)
+                .findAll(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    pageable.getSort().toString(),
+                    field
+                ))
+                .withSelfRel();
     }
 
 }
