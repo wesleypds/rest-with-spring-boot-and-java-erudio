@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -18,13 +17,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import curso.spring.boot.config.TestConfigs;
 import curso.spring.boot.integrationtests.dto.PersonDTO;
+import curso.spring.boot.integrationtests.dto.wrapper.WrapperPersonDTO;
 import curso.spring.boot.integrationtests.testcontainer.AbstractIntegrationTest;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -188,7 +187,6 @@ public class PersonControllerTest extends AbstractIntegrationTest {
 
     @Test
     @Order(6)
-    @Disabled("REASON: Still Under Development")
     void testFindAll() throws JsonMappingException, JsonProcessingException {
 
         var result =given(specification)
@@ -201,7 +199,8 @@ public class PersonControllerTest extends AbstractIntegrationTest {
                         .body()
                             .asString();
 
-        List<PersonDTO> list = mapper.readValue(result, new TypeReference<List<PersonDTO>>() {});
+        WrapperPersonDTO wrapper = mapper.readValue(result, WrapperPersonDTO.class);
+        List<PersonDTO> list = wrapper.getEmbedded().getListObj();
 
         PersonDTO personZero = list.get(0);
 
