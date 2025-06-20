@@ -1,11 +1,10 @@
-package curso.spring.boot.model.dto;
+package curso.spring.boot.integrationtests.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import org.springframework.hateoas.server.core.Relation;
+import curso.spring.boot.model.dto.GenericDTO;
 
-@Relation(collectionRelation = "books")
 public class BookDTO extends GenericDTO<BookDTO> {
 
     private String author;
